@@ -217,6 +217,17 @@
             }
         }
 
+      public static void share(String msg){
+            try{
+                Intent textIntent = new Intent(Intent.ACTION_SEND);
+                textIntent.setType("text/plain");
+                textIntent.putExtra(Intent.EXTRA_TEXT, "Drop the blocks to create vertically or horizontally lines of blocks without gaps. When such a line is created, it gets destroyed. Keep your board clear and keep your cool as things heat up in this simple but addictive puzzle game!\n : https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID + "-----" + msg);
+                getContext().startActivity(Intent.createChooser(textIntent, getContext().getString(R.string.app_name) + ":"));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
         public static int getScreenWidth(){
             try{
                 DisplayMetrics _metrics = new DisplayMetrics();
@@ -274,3 +285,8 @@
         }
 
     }
+
+
+
+TIP:
+    1. 在调用 showBanner 接口时，需要提前调用 closeBanner 接口，防止任务重复
