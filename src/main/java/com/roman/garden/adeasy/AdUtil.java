@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 final class AdUtil {
 
     public static boolean isAdIdEmpty(@NonNull AdItem src){
-        if (src.getAdId() != null && src.getAdId().length() > 0)
+        if (src != null && src.getAdId() != null && src.getAdId().length() > 0)
             return false;
         return true;
     }
