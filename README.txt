@@ -119,28 +119,6 @@
             }
         }
 
-        public static boolean hasInterstitialVideo(){
-            try {
-                return AdEasy.of().hasInterstitialVideo();
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-            return false;
-        }
-
-        public static void showInterstitialVideo() {
-            try {
-                UIHandler.getInstance().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        AdEasy.of().showInterstitialVideo();
-                    }
-                });
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-
         public static boolean hasRewardVideo(){
             try {
                 return AdEasy.of().hasVideo();
