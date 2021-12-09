@@ -10,6 +10,7 @@ public class PlatformConfig {
     private AdItem _interstitialId;
     private AdItem _interstitialVideoId;
     private AdItem _videoId;
+    private AdItem _nativeId;
 
     public PlatformConfig createAdmob(){
         _platform = AdInfo.GROUP_ADMOB;
@@ -37,6 +38,8 @@ public class PlatformConfig {
             _interstitialVideoId = AdItem.build(_platform, _parameter, widget);
         } else if(_type == AdInfo.TYPE_VIDEO){
             _videoId = AdItem.build(_platform, _parameter, widget);
+        } else if(_type == AdInfo.TYPE_NATIVE){
+            _nativeId = AdItem.build(_platform, _parameter, widget);
         }
         return this;
     }
@@ -63,5 +66,9 @@ public class PlatformConfig {
 
     public AdItem getVideoId() {
         return _videoId;
+    }
+
+    public AdItem getNativeId() {
+        return _nativeId;
     }
 }

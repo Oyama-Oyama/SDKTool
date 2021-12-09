@@ -42,6 +42,7 @@ public class AdEasy {
     private List<AdItem> _interstitialIds = new ArrayList<>();
     private List<AdItem> _interstitialVideoIds = new ArrayList<>();
     private List<AdItem> _videoIds = new ArrayList<>();
+    private List<AdItem> _nativeIds = new ArrayList<>();
 
     private AdmobImpl _admobImpl = null;
     private UnityImpl _unityImpl = null;
@@ -50,6 +51,7 @@ public class AdEasy {
     private BannerAdLoadListener _bannerAdLoadListener = null;
     private InterstitialAdLoadListener _interstitialAdLoadListener = null;
     private VideoAdLoadListener _videoAdLoadListener = null;
+    private NativeAdLoadListener _nativeAdLoadListener = null;
 
     private static final long AD_LOADER_DELAY = 10 * 1000;
     private static final long AD_LOADER_START_DELAY = 2 * 1000;
@@ -185,6 +187,7 @@ public class AdEasy {
         _interstitialIds.clear();
         _interstitialVideoIds.clear();
         _videoIds.clear();
+        _nativeIds.clear();
     }
 
     private boolean isInitialized(){
@@ -204,6 +207,8 @@ public class AdEasy {
                 _interstitialVideoIds.add(pc.getInterstitialVideoId());
             if (!AdUtil.isAdIdEmpty(pc.getVideoId()))
                 _videoIds.add(pc.getVideoId());
+            if (!AdUtil.isAdIdEmpty(pc.getNativeId()))
+                _nativeIds.add(pc.getVideoId());
         }
         Collections.sort(_bannerIds, new Comparator<AdItem>() {
             @Override
@@ -249,10 +254,17 @@ public class AdEasy {
         return _videoAdLoadListener;
     }
 
+    public NativeAdLoadListener getNativeAdLoadListener() {
+        if (_nativeAdLoadListener == null)
+            _nativeAdLoadListener = new NativeAdLoadListener();
+        return _nativeAdLoadListener;
+    }
+
     private void startLoadAds(String _adGroup){
         startAdLoaderRunnable(_adGroup, AdInfo.TYPE_BANNER, 0l);
         startAdLoaderRunnable(_adGroup, AdInfo.TYPE_INTERSTITIAL, 0l);
         startAdLoaderRunnable(_adGroup, AdInfo.TYPE_VIDEO, 0l);
+        startAdLoaderRunnable(_adGroup, AdInfo.TYPE_NATIVE, 0l);
     }
 
     private synchronized void startAdLoaderRunnable(String _adGroup, String _adType, long _delay){
@@ -302,6 +314,7 @@ public class AdEasy {
             _admobImpl.setupBannerListener(getBannerAdLoadListener());
             _admobImpl.setupInterstitialListener(getInterstitialAdLoadListener());
             _admobImpl.setupVideoListener(getVideoAdLoadListener());
+            _admobImpl.setupNativeListener(getNativeAdLoadListener());
         }
         startLoadAds(AdInfo.GROUP_ADMOB);
     }
@@ -312,6 +325,7 @@ public class AdEasy {
             _vungleImpl.setupBannerListener(getBannerAdLoadListener());
             _vungleImpl.setupInterstitialListener(getInterstitialAdLoadListener());
             _vungleImpl.setupVideoListener(getVideoAdLoadListener());
+            _vungleImpl.setupNativeListener(getNativeAdLoadListener());
         }
         startLoadAds(AdInfo.GROUP_VUNGLE);
     }
@@ -322,6 +336,7 @@ public class AdEasy {
             _unityImpl.setupBannerListener(getBannerAdLoadListener());
             _unityImpl.setupInterstitialListener(getInterstitialAdLoadListener());
             _unityImpl.setupVideoListener(getVideoAdLoadListener());
+            _unityImpl.setupNativeListener(getNativeAdLoadListener());
         }
         startLoadAds(AdInfo.GROUP_UNITY);
     }
@@ -354,6 +369,15 @@ public class AdEasy {
                     }
                 }
             }, _delay);
+        } else if (_adType == AdInfo.TYPE_NATIVE){
+            UIHandler.getInstance().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(_admobImpl != null && !_admobImpl.isVideoOk() && _activityImpl != null && _activityImpl.get() != null){
+                        _admobImpl.loadNative(_activityImpl.get());
+                    }
+                }
+            }, _delay);
         }
     }
 
@@ -382,6 +406,8 @@ public class AdEasy {
                         _unityImpl.loadVideo(null);
                 }
             }, _delay);
+        } else if(_adType == AdInfo.TYPE_NATIVE){
+            // TODO: 2021/12/9  nothing
         }
     }
 
@@ -408,6 +434,14 @@ public class AdEasy {
                 public void run() {
                     if (_vungleImpl != null && !_vungleImpl.isVideoOk())
                         _vungleImpl.loadVideo(null);
+                }
+            }, _delay);
+        } else if(_adType == AdInfo.TYPE_NATIVE){
+            UIHandler.getInstance().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (_vungleImpl != null && !_vungleImpl.isVideoOk())
+                        _vungleImpl.loadNative(null);
                 }
             }, _delay);
         }
@@ -536,6 +570,45 @@ public class AdEasy {
         }
     }
 
+    private class NativeAdLoadListener implements AdLoadListener{
+
+        @Override
+        public void onAdLoaded(String _adGroup, String _adType) {
+            LogUtil.e(AdInfo.makeMsg(AdInfo.EVENT_AD_LOADED, _adGroup, _adType));
+        }
+
+        @Override
+        public void onAdLoadFailed(String _adGroup, String _adType, String _error) {
+            LogUtil.e(AdInfo.makeExtraMsg(AdInfo.EVENT_AD_LOAD_FAILED, _adGroup, _adType, "error", _error));
+            startAdLoaderRunnable(_adGroup, _adType, AD_LOADER_DELAY);
+        }
+
+        @Override
+        public void onAdClosed(String _adGroup, String _adType) {
+            LogUtil.e(AdInfo.makeMsg(AdInfo.EVENT_AD_CLOSED, _adGroup, _adType));
+        }
+
+        @Override
+        public void onAdOpened(String _adGroup, String _adType) {
+            LogUtil.e(AdInfo.makeMsg(AdInfo.EVENT_AD_OPENED, _adGroup, _adType));
+        }
+
+        @Override
+        public void onAdImpression(String _adGroup, String _adType) {
+            LogUtil.e(AdInfo.makeMsg(AdInfo.EVENT_AD_IMPRESSION, _adGroup, _adType));
+        }
+
+        @Override
+        public void onAdClicked(String _adGroup, String _adType) {
+            LogUtil.e(AdInfo.makeMsg(AdInfo.EVENT_AD_CLICKED, _adGroup, _adType));
+        }
+
+        @Override
+        public void onAdShowFailed(String _adGroup, String _adType, String error) {
+            LogUtil.e(AdInfo.makeExtraMsg(AdInfo.EVENT_AD_SHOW_FAILED, _adGroup, _adType, "error", error));
+        }
+    };
+
     public boolean hasBanner(){
         if (!isInitialized())
             return false;
@@ -566,7 +639,6 @@ public class AdEasy {
                 }
             } else if(_item.getAdGroup() == AdInfo.GROUP_UNITY){
                 if (_unityImpl != null && _unityImpl.isBannerOk()) {
-                    View v = _unityImpl.getBannerView();
                     return _unityImpl.getBannerView();
                 }
             } else if(_item.getAdGroup() == AdInfo.GROUP_VUNGLE){
@@ -767,5 +839,47 @@ public class AdEasy {
         }
     }
 
+    public boolean hasNativeAd(){
+        if (!isInitialized())
+            return false;
+        if (_nativeIds.size() <= 0)
+            return false;
+        for (AdItem _item : _nativeIds){
+            if (_item.getAdGroup() == AdInfo.GROUP_ADMOB){
+                if (_admobImpl != null && _admobImpl.isNativeOk())
+                    return true;
+            } else if(_item.getAdGroup() == AdInfo.GROUP_UNITY){
+                if (_unityImpl != null && _unityImpl.isNativeOk())
+                    return true;
+            } else if(_item.getAdGroup() == AdInfo.GROUP_VUNGLE){
+                if (_vungleImpl != null && _vungleImpl.isNativeOk())
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public View getNativeAdView(){
+        if (!isInitialized())
+            return null;
+        if (_nativeIds.size() <= 0)
+            return null;
+        for (AdItem _item : _nativeIds){
+            if (_item.getAdGroup() == AdInfo.GROUP_ADMOB){
+                if (_admobImpl != null && _admobImpl.isNativeOk())
+                    startAdLoaderRunnable(AdInfo.GROUP_ADMOB, AdInfo.TYPE_NATIVE, AD_LOADER_DELAY * 3);
+                    return _admobImpl.getNativeView();
+            } else if(_item.getAdGroup() == AdInfo.GROUP_UNITY){
+                if (_unityImpl != null && _unityImpl.isNativeOk())
+                    startAdLoaderRunnable(AdInfo.GROUP_UNITY, AdInfo.TYPE_NATIVE, AD_LOADER_DELAY * 3);
+                    return _unityImpl.getNativeView();
+            } else if(_item.getAdGroup() == AdInfo.GROUP_VUNGLE){
+                if (_vungleImpl != null && _vungleImpl.isNativeOk())
+                    startAdLoaderRunnable(AdInfo.GROUP_VUNGLE, AdInfo.TYPE_NATIVE, AD_LOADER_DELAY * 3);
+                    return _vungleImpl.getNativeView();
+            }
+        }
+        return null;
+    }
 
 }

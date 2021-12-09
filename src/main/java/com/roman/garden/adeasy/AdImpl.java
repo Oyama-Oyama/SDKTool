@@ -33,7 +33,15 @@ public interface AdImpl {
 
     boolean isVideoOk();
 
+    void setupNativeListener(@NonNull AdLoadListener _listener);
+
     void showVideo(Activity _activity, RewardVideoResultListener listener);
+
+    void loadNative(Context context);
+
+    boolean isNativeOk();
+
+    View getNativeView();
 
 
     void destroy();

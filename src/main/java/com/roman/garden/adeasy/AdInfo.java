@@ -10,6 +10,7 @@ public class AdInfo {
     public static final String TYPE_INTERSTITIAL = "interstitial";
     public static final String TYPE_INTERSTITIAL_VIDEO = "interstitialVideo";
     public static final String TYPE_VIDEO = "video";
+    public static final String TYPE_NATIVE = "video";
 
     public static final String EVENT_AD_LOADED = "adAdLoaded";
     public static final String EVENT_AD_LOAD_FAILED = "onAdLoadFailed";
