@@ -8,7 +8,6 @@ public class AdInfo {
 
     public static final String TYPE_BANNER = "banner";
     public static final String TYPE_INTERSTITIAL = "interstitial";
-    public static final String TYPE_INTERSTITIAL_VIDEO = "interstitialVideo";
     public static final String TYPE_VIDEO = "video";
     public static final String TYPE_NATIVE = "video";
 

@@ -40,7 +40,6 @@ public class AdEasy {
 
     private List<AdItem> _bannerIds = new ArrayList<>();
     private List<AdItem> _interstitialIds = new ArrayList<>();
-    private List<AdItem> _interstitialVideoIds = new ArrayList<>();
     private List<AdItem> _videoIds = new ArrayList<>();
     private List<AdItem> _nativeIds = new ArrayList<>();
 
@@ -185,7 +184,6 @@ public class AdEasy {
         _platformConfigs.clear();
         _bannerIds.clear();
         _interstitialIds.clear();
-        _interstitialVideoIds.clear();
         _videoIds.clear();
         _nativeIds.clear();
     }
@@ -203,8 +201,6 @@ public class AdEasy {
                 _bannerIds.add(pc.getBannerId());
             if (!AdUtil.isAdIdEmpty(pc.getInterstitialId()))
                 _interstitialIds.add(pc.getInterstitialId());
-            if (!AdUtil.isAdIdEmpty(pc.getInterstitialVideoId()))
-                _interstitialVideoIds.add(pc.getInterstitialVideoId());
             if (!AdUtil.isAdIdEmpty(pc.getVideoId()))
                 _videoIds.add(pc.getVideoId());
             if (!AdUtil.isAdIdEmpty(pc.getNativeId()))
@@ -217,12 +213,6 @@ public class AdEasy {
             }
         });
         Collections.sort(_interstitialIds, new Comparator<AdItem>() {
-            @Override
-            public int compare(AdItem o1, AdItem o2) {
-                return o1.getAdWidget() - o2.getAdWidget();
-            }
-        });
-        Collections.sort(_interstitialVideoIds, new Comparator<AdItem>() {
             @Override
             public int compare(AdItem o1, AdItem o2) {
                 return o1.getAdWidget() - o2.getAdWidget();
@@ -735,51 +725,6 @@ public class AdEasy {
         if (_interstitialIds.size() <= 0)
             return;
         for(AdItem _item : _interstitialIds){
-            if (_item.getAdGroup() == AdInfo.GROUP_ADMOB){
-                if (_admobImpl != null && _admobImpl.isInterstitialOk() && _activityImpl != null && _activityImpl.get() != null) {
-                    _admobImpl.showInterstitial(_activityImpl.get());
-                    return;
-                }
-            } else if(_item.getAdGroup() == AdInfo.GROUP_UNITY){
-                if (_unityImpl != null && _unityImpl.isInterstitialOk() && _activityImpl != null && _activityImpl.get() != null) {
-                    _unityImpl.showInterstitial(_activityImpl.get());
-                    return;
-                }
-            } else if(_item.getAdGroup() == AdInfo.GROUP_VUNGLE){
-                if (_vungleImpl != null && _vungleImpl.isInterstitialOk()) {
-                    _vungleImpl.showInterstitial(null);
-                    return;
-                }
-            }
-        }
-    }
-
-    public boolean hasInterstitialVideo(){
-        if (!isInitialized())
-            return false;
-        if (_interstitialVideoIds.size() <= 0)
-            return false;
-        for(AdItem _item : _interstitialVideoIds){
-            if (_item.getAdGroup() == AdInfo.GROUP_ADMOB){
-                if (_admobImpl != null && _admobImpl.isInterstitialOk())
-                    return true;
-            } else if(_item.getAdGroup() == AdInfo.GROUP_UNITY){
-                if (_unityImpl != null && _unityImpl.isInterstitialOk())
-                    return true;
-            } else if(_item.getAdGroup() == AdInfo.GROUP_VUNGLE){
-                if (_vungleImpl != null && _vungleImpl.isInterstitialOk())
-                    return true;
-            }
-        }
-        return false;
-    }
-
-    public void showInterstitialVideo(){
-        if (!isInitialized())
-            return;
-        if (_interstitialVideoIds.size() <= 0)
-            return;
-        for(AdItem _item : _interstitialVideoIds){
             if (_item.getAdGroup() == AdInfo.GROUP_ADMOB){
                 if (_admobImpl != null && _admobImpl.isInterstitialOk() && _activityImpl != null && _activityImpl.get() != null) {
                     _admobImpl.showInterstitial(_activityImpl.get());

@@ -34,8 +34,6 @@ public class PlatformConfig {
             _bannerId = AdItem.build(_platform, _parameter, widget);
         } else if(_type == AdInfo.TYPE_INTERSTITIAL){
             _interstitialId = AdItem.build(_platform, _parameter, widget);
-        } else if(_type == AdInfo.TYPE_INTERSTITIAL_VIDEO){
-            _interstitialVideoId = AdItem.build(_platform, _parameter, widget);
         } else if(_type == AdInfo.TYPE_VIDEO){
             _videoId = AdItem.build(_platform, _parameter, widget);
         } else if(_type == AdInfo.TYPE_NATIVE){
