@@ -234,6 +234,12 @@ public class AdEasy {
                 return o1.getAdWidget() - o2.getAdWidget();
             }
         });
+        Collections.sort(_nativeIds, new Comparator<AdItem>() {
+            @Override
+            public int compare(AdItem o1, AdItem o2) {
+                return o1.getAdWidget() - o2.getAdWidget();
+            }
+        });
     }
 
     public BannerAdLoadListener getBannerAdLoadListener() {
