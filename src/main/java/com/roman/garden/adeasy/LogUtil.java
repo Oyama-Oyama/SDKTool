@@ -4,7 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-public class LogUtil {
+public final class LogUtil {
 
     private static String TAG = "AdSDK";
 

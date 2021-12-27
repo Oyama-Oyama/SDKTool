@@ -2,7 +2,7 @@ package com.roman.garden.adeasy;
 
 import androidx.annotation.NonNull;
 
-final class AdItem {
+public final class AdItem {
 
     private String _adId;
     private int _adWidget;

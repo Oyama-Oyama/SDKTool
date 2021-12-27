@@ -1,13 +1,10 @@
 package com.roman.garden.adeasy;
 
-import android.app.Activity;
-import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.unity3d.ads.IUnityAdsInitializationListener;
 import com.unity3d.ads.IUnityAdsLoadListener;
 import com.unity3d.ads.IUnityAdsShowListener;
 import com.unity3d.ads.UnityAds;
@@ -16,273 +13,206 @@ import com.unity3d.services.banners.BannerErrorInfo;
 import com.unity3d.services.banners.BannerView;
 import com.unity3d.services.banners.UnityBannerSize;
 
-import org.jetbrains.annotations.NotNull;
+public class UnityImpl extends BaseAdImpl {
 
-final class UnityImpl implements AdImpl {
+    private BannerView _banner;
 
-    private AdLoadListener _bannerListener = null;
-    private AdLoadListener _interstitialListener = null;
-    private AdLoadListener _videoListener = null;
+    @Override
+    protected void initAdPlatform() {
+        UnityAds.initialize(AdEasyImpl.of().getApplication(),
+                getAppId(),
+                isTestMode,
+                new IUnityAdsInitializationListener() {
+                    @Override
+                    public void onInitializationComplete() {
+                        loadBanner();
+                        loadInterstitial();
+                        loadVideo();
+                        loadNative();
+                    }
 
-    private PlatformConfig _platformConfig = null;
-
-    private BannerView _bannerView = null;
-
-    public UnityImpl(PlatformConfig _config) {
-        this._platformConfig = _config;
+                    @Override
+                    public void onInitializationFailed(UnityAds.UnityAdsInitializationError unityAdsInitializationError, String s) {
+                        LogUtil.e("init unity error " + unityAdsInitializationError.toString());
+                        retryInitAdPlatform();
+                    }
+                });
     }
 
-    private boolean assetUnity() {
-        if (UnityAds.isInitialized()) {
-            if (UnityAds.isSupported()) {
-                return true;
-            } else {
-                LogUtil.e("UnityAds SDK is not supported");
+    @Override
+    protected boolean validPlatform() {
+        return UnityAds.isInitialized() && UnityAds.isSupported();
+    }
+
+    @Override
+    protected void loadBanner() {
+        if (validPlatform()) {
+            AdItem item = getBannerId();
+            if (!validAdItem(item)) return;
+            if (AdEasyImpl.of().getActivity() == null) {
+                logError(item, AdInfo.TYPE_BANNER, " activity is null");
+                reloadBanner();
+                return;
             }
-        } else {
-            LogUtil.e("UnityAds SDK has not initialized");
-        }
-        return false;
-    }
-
-    private boolean assetPlatformConfig() {
-        if (_platformConfig != null)
-            return true;
-        LogUtil.e("UnityAds platform has not seted");
-        return false;
-    }
-
-    @Override
-    public void setupBannerListener(@NonNull AdLoadListener _listener) {
-        this._bannerListener = _listener;
-    }
-
-    @Override
-    public void loadBanner(Activity _activity) {
-        if (assetUnity() && assetPlatformConfig() && !AdUtil.isAdIdEmpty(_platformConfig.getBannerId())) {
-            BannerView __bannerView = new BannerView(_activity, _platformConfig.getBannerId().getAdId(), new UnityBannerSize(320, 50));
-            __bannerView.setListener(new BannerView.IListener() {
+            BannerView _bannerView = new BannerView(AdEasyImpl.of().getActivity(),
+                    item.getAdId(),
+                    new UnityBannerSize(320, 50));
+            _bannerView.setListener(new BannerView.IListener() {
                 @Override
                 public void onBannerLoaded(BannerView bannerView) {
-                    _bannerView = bannerView;
-                    if (_bannerListener != null)
-                        _bannerListener.onAdLoaded(AdInfo.GROUP_UNITY, AdInfo.TYPE_BANNER);
+                    logEvent(item, AdInfo.TYPE_BANNER);
+                    _banner = bannerView;
+                    setupBanner(item);
                 }
 
                 @Override
                 public void onBannerClick(BannerView bannerView) {
-                    if (_bannerListener != null)
-                        _bannerListener.onAdClicked(AdInfo.GROUP_UNITY, AdInfo.TYPE_BANNER);
+                    logEvent(item, AdInfo.TYPE_BANNER, "clicked");
                 }
 
                 @Override
                 public void onBannerFailedToLoad(BannerView bannerView, BannerErrorInfo bannerErrorInfo) {
-                    if (_bannerListener != null)
-                        _bannerListener.onAdLoadFailed(AdInfo.GROUP_UNITY, AdInfo.TYPE_BANNER, bannerErrorInfo.toString());
+                    logError(item, AdInfo.TYPE_BANNER, bannerErrorInfo.errorMessage);
+                    reloadBanner();
                 }
 
                 @Override
                 public void onBannerLeftApplication(BannerView bannerView) {
-                    if (_bannerListener != null)
-                        _bannerListener.onAdClicked(AdInfo.GROUP_UNITY, AdInfo.TYPE_BANNER);
+
                 }
             });
-            __bannerView.load();
+            _bannerView.load();
         }
     }
 
     @Override
-    public boolean isBannerOk() {
-        if (assetUnity() && assetPlatformConfig() && !AdUtil.isAdIdEmpty(_platformConfig.getBannerId())) {
-            return _bannerView != null;
-        }
-        return false;
+    protected void reloadBanner() {
+        _banner = null;
+        super.reloadBanner();
     }
 
     @Override
-    public View getBannerView() {
-        if (assetUnity() && assetPlatformConfig() && !AdUtil.isAdIdEmpty(_platformConfig.getBannerId())) {
-            return _bannerView;
+    protected View getBannerView() {
+        return _banner;
+    }
+
+    @Override
+    protected void loadInterstitial() {
+        if (validPlatform()) {
+            AdItem item = getInterstitialId();
+            if (!validAdItem(item)) return;
+            UnityAds.load(item.getAdId(), new IUnityAdsLoadListener() {
+                @Override
+                public void onUnityAdsAdLoaded(String s) {
+                    logEvent(item, AdInfo.TYPE_INTERSTITIAL);
+                    setupInterstitial(item);
+                }
+
+                @Override
+                public void onUnityAdsFailedToLoad(String s, UnityAds.UnityAdsLoadError unityAdsLoadError, String s1) {
+                    logError(item, AdInfo.TYPE_INTERSTITIAL, unityAdsLoadError.toString());
+                    reloadInterstitial();
+                }
+            });
         }
+    }
+
+    @Override
+    protected void showInterstitial() {
+        AdItem item = getInterstitialId();
+        if (AdEasyImpl.of().getActivity() != null &&
+                validAdItem(item) &&
+                UnityAdsImplementation.isReady(item.getAdId())) {
+            UnityAds.show(AdEasyImpl.of().getActivity(), item.getAdId(), new IUnityAdsShowListener() {
+                @Override
+                public void onUnityAdsShowFailure(String s, UnityAds.UnityAdsShowError unityAdsShowError, String s1) {
+                    reloadInterstitial();
+                }
+
+                @Override
+                public void onUnityAdsShowStart(String s) {
+
+                }
+
+                @Override
+                public void onUnityAdsShowClick(String s) {
+
+                }
+
+                @Override
+                public void onUnityAdsShowComplete(String s, UnityAds.UnityAdsShowCompletionState unityAdsShowCompletionState) {
+                    reloadInterstitial();
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void loadNative() {
+
+    }
+
+    @Override
+    protected View getNativeView() {
         return null;
     }
 
     @Override
-    public void destroyBannerView(@Nullable View view) {
-        try {
-            if (_bannerView != null) {
-                if (_bannerView.getParent() != null) {
-                    ((ViewGroup) _bannerView.getParent()).removeView(_bannerView);
-                }
-                _bannerView.destroy();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            _bannerView = null;
-        }
-    }
-
-    @Override
-    public void setupInterstitialListener(@NonNull AdLoadListener _listener) {
-        this._interstitialListener = _listener;
-    }
-
-    @Override
-    public void loadInterstitial(Context _context) {
-        if (assetUnity() && assetPlatformConfig() && AdUtil.isAdIdEmpty(_platformConfig.getInterstitialId())) {
-            UnityAds.load(_platformConfig.getInterstitialId().getAdId(), new IUnityAdsLoadListener() {
+    protected void loadVideo() {
+        if (validPlatform()) {
+            AdItem item = getVideoId();
+            if (!validAdItem(item)) return;
+            UnityAds.load(item.getAdId(), new IUnityAdsLoadListener() {
                 @Override
                 public void onUnityAdsAdLoaded(String s) {
-                    if (_interstitialListener != null)
-                        _interstitialListener.onAdLoaded(AdInfo.GROUP_UNITY, AdInfo.TYPE_INTERSTITIAL);
+                    logEvent(item, AdInfo.TYPE_VIDEO);
+                    setupVideo(item);
                 }
 
                 @Override
                 public void onUnityAdsFailedToLoad(String s, UnityAds.UnityAdsLoadError unityAdsLoadError, String s1) {
-                    if (_interstitialListener != null)
-                        _interstitialListener.onAdLoadFailed(AdInfo.GROUP_UNITY, AdInfo.TYPE_INTERSTITIAL, unityAdsLoadError.toString());
+                    logError(item, AdInfo.TYPE_VIDEO, unityAdsLoadError.toString());
+                    reloadVideo();
                 }
             });
         }
     }
 
     @Override
-    public boolean isInterstitialOk() {
-        if (assetUnity() && assetPlatformConfig() && !AdUtil.isAdIdEmpty(_platformConfig.getInterstitialId())) {
-            return UnityAdsImplementation.isReady(_platformConfig.getInterstitialId().getAdId());
-        }
-        return false;
-    }
-
-    @Override
-    public void showInterstitial(Activity _activity) {
-        if (assetUnity() && assetPlatformConfig() && !AdUtil.isAdIdEmpty(_platformConfig.getInterstitialId())) {
-            UnityAds.show(_activity, _platformConfig.getInterstitialId().getAdId(), new IUnityAdsShowListener() {
+    protected void showVideo(@Nullable @org.jetbrains.annotations.Nullable IVideoResultCallback callback) {
+        AdItem item = getVideoId();
+        if (AdEasyImpl.of().getActivity() != null &&
+                validAdItem(item) &&
+                UnityAdsImplementation.isReady(item.getAdId())) {
+            UnityAds.show(AdEasyImpl.of().getActivity(), item.getAdId(), new IUnityAdsShowListener() {
                 @Override
                 public void onUnityAdsShowFailure(String s, UnityAds.UnityAdsShowError unityAdsShowError, String s1) {
-                    if (_interstitialListener != null)
-                        _interstitialListener.onAdShowFailed(AdInfo.GROUP_UNITY, AdInfo.TYPE_INTERSTITIAL, unityAdsShowError.toString());
+                    reloadVideo();
+                    if (callback != null) callback.onResult(false);
                 }
 
                 @Override
                 public void onUnityAdsShowStart(String s) {
-                    if (_interstitialListener != null)
-                        _interstitialListener.onAdOpened(AdInfo.GROUP_UNITY, AdInfo.TYPE_INTERSTITIAL);
+
                 }
 
                 @Override
                 public void onUnityAdsShowClick(String s) {
-                    if (_interstitialListener != null)
-                        _interstitialListener.onAdClicked(AdInfo.GROUP_UNITY, AdInfo.TYPE_INTERSTITIAL);
+
                 }
 
                 @Override
                 public void onUnityAdsShowComplete(String s, UnityAds.UnityAdsShowCompletionState unityAdsShowCompletionState) {
-                    if (_interstitialListener != null)
-                        _interstitialListener.onAdClosed(AdInfo.GROUP_UNITY, AdInfo.TYPE_INTERSTITIAL);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void setupVideoListener(@NonNull AdLoadListener _listener) {
-        this._videoListener = _listener;
-    }
-
-    @Override
-    public void loadVideo(Context _context) {
-        if (assetUnity() && assetPlatformConfig() && !AdUtil.isAdIdEmpty(_platformConfig.getVideoId())) {
-            UnityAds.load(_platformConfig.getVideoId().getAdId(), new IUnityAdsLoadListener() {
-                @Override
-                public void onUnityAdsAdLoaded(String s) {
-                    if (_videoListener != null)
-                        _videoListener.onAdLoaded(AdInfo.GROUP_UNITY, AdInfo.TYPE_VIDEO);
-                }
-
-                @Override
-                public void onUnityAdsFailedToLoad(String s, UnityAds.UnityAdsLoadError unityAdsLoadError, String s1) {
-                    if (_videoListener != null)
-                        _videoListener.onAdLoadFailed(AdInfo.GROUP_UNITY, AdInfo.TYPE_VIDEO, unityAdsLoadError.toString());
-                }
-            });
-        }
-    }
-
-    @Override
-    public boolean isVideoOk() {
-        if (assetUnity() && assetPlatformConfig() && !AdUtil.isAdIdEmpty(_platformConfig.getVideoId())) {
-            return UnityAdsImplementation.isReady(_platformConfig.getVideoId().getAdId());
-        }
-        return false;
-    }
-
-    @Override
-    public void showVideo(Activity _activity, RewardVideoResultListener listener) {
-        if (assetUnity() && assetPlatformConfig() && !AdUtil.isAdIdEmpty(_platformConfig.getVideoId())) {
-            UnityAds.show(_activity, _platformConfig.getVideoId().getAdId(), new IUnityAdsShowListener() {
-                @Override
-                public void onUnityAdsShowFailure(String s, UnityAds.UnityAdsShowError unityAdsShowError, String s1) {
-                    if (_videoListener != null)
-                        _videoListener.onAdShowFailed(AdInfo.GROUP_UNITY, AdInfo.TYPE_VIDEO, unityAdsShowError.toString());
-                }
-
-                @Override
-                public void onUnityAdsShowStart(String s) {
-                    if (_videoListener != null)
-                        _videoListener.onAdOpened(AdInfo.GROUP_UNITY, AdInfo.TYPE_VIDEO);
-                }
-
-                @Override
-                public void onUnityAdsShowClick(String s) {
-                    if (_videoListener != null)
-                        _videoListener.onAdClicked(AdInfo.GROUP_UNITY, AdInfo.TYPE_VIDEO);
-                }
-
-                @Override
-                public void onUnityAdsShowComplete(String s, UnityAds.UnityAdsShowCompletionState unityAdsShowCompletionState) {
-                    if (_videoListener != null)
-                        _videoListener.onAdClicked(AdInfo.GROUP_UNITY, AdInfo.TYPE_VIDEO);
                     if (unityAdsShowCompletionState == UnityAds.UnityAdsShowCompletionState.COMPLETED) {
-                        if (listener != null) listener.onRewardVideoResult(true);
+                        if (callback != null) callback.onResult(true);
                     } else {
-                        if (listener != null) listener.onRewardVideoResult(false);
+                        if (callback != null) callback.onResult(false);
                     }
+                    reloadVideo();
                 }
             });
-        } else {
-            if (listener != null)
-                listener.onRewardVideoResult(false);
-        }
+        } else if (callback != null) callback.onResult(false);
     }
 
-    @Override
-    public void setupNativeListener(@NonNull @NotNull AdLoadListener _listener) {
-
-    }
-
-    @Override
-    public void loadNative(Context context) {
-        // TODO: 2021/12/9 nothing 
-    }
-
-    @Override
-    public boolean isNativeOk() {
-        return false;
-    }
-
-    @Override
-    public View getNativeView() {
-        return null;
-    }
-
-    @Override
-    public void destroy() {
-        _bannerListener = null;
-        _interstitialListener = null;
-        _videoListener = null;
-        destroyBannerView(null);
-    }
 
 }

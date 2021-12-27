@@ -9,11 +9,12 @@
         <uses-permission android:name="android.permission.INTERNET"/>
         <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
         <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+        <uses-permission android:name="android.permission.WAKE_LOCK" />
 
 3.  创建 Application.java, 并在  AndroidManifest.xml 文件内引用
 
 4.  在 Application 类内初始化 配置信息
-        AdEasy.init(Application.class, ADEasyApplicationImp);
+        AdEasyImpl.init(Application.class, AdEasyImplApplicationImp);
         并在 createPlatformConfig 方法内，创建不同广告平台广告 id 信息
 
 5.  如使用 Admob 广告，在AndroidManifest.xml 中的<Application>标签内 添加
@@ -22,12 +23,12 @@
                 android:value="ca-app-pub-3280143961801642~1025778304"/>
          （value 值 为 Admob 应用ID）
 
+    穿山甲（Pangle）广告 需要在项目 build.gradle 文件内添加：
+    maven { url 'https://artifact.bytedance.com/repository/pangle' }
+
+
 6.  在 AppActivity.java 类内 创建 SDK 调用方法
     public class AppActivity extends Cocos2dxActivity implements AdEasyActivityImpl {
-
-        private FrameLayout _bannerContainer = null;
-        private Runnable _bannerRunnable = null;
-        Handler _handler = new Handler();
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -49,49 +50,12 @@
                 getWindow().setAttributes(lp);
             }
             // DO OTHER INITIALIZATION BELOW
+            AdEasyImp.of().onCreate(this);
 
-            if(_bannerContainer == null){
-                _bannerContainer = new FrameLayout(this);
-            }
-
-            AdEasy.of().onCreate(this, this);
-            getWindow().getDecorView().post(new Runnable() {
-                @Override
-                public void run() {
-                    FrameLayout.LayoutParams _params = new FrameLayout.LayoutParams(-2, -2);
-                    _params.gravity = Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL;
-                    ((FrameLayout)getWindow().getDecorView()).addView(_bannerContainer, _params);
-                }
-            });
-
-        }
-
-        @Override
-        public ViewGroup getBannerContainer() {
-            return _bannerContainer;
-        }
-
-        public void showBannerAd(){
-            if (_bannerRunnable == null){
-                _bannerRunnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        if (hasBanner()){
-                            AdEasy.of().showBanner();
-                        } else {
-                            _handler.postDelayed(_bannerRunnable, 3 * 1000);
-                        }
-                    }
-                };
-            }
-            _handler.removeCallbacks(_bannerRunnable);
-            _handler.post(_bannerRunnable);
         }
 
         public void closeBannerAd(){
-            if(_handler != null && _bannerRunnable != null)
-                _handler.removeCallbacks(_bannerRunnable);
-            AdEasy.of().hideBanner();
+            AdEasyImp.of().cancelBanner();
         }
 
         public static native void onRewardResult(int rewardId, boolean success);
@@ -99,7 +63,7 @@
 
         public static boolean hasInterstitial(){
             try {
-                return AdEasy.of().hasInterstitial();
+                return AdEasyImpl.of().hasInterstitial();
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -111,7 +75,7 @@
                 UIHandler.getInstance().post(new Runnable() {
                     @Override
                     public void run() {
-                        AdEasy.of().showInterstitial();
+                        AdEasyImpl.of().showInterstitial();
                     }
                 });
             } catch (Exception e){
@@ -121,7 +85,7 @@
 
         public static boolean hasRewardVideo(){
             try {
-                return AdEasy.of().hasVideo();
+                return AdEasyImpl.of().hasVideo();
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -133,7 +97,7 @@
                 UIHandler.getInstance().post(new Runnable() {
                     @Override
                     public void run() {
-                        AdEasy.of().showVideo(new RewardVideoResultListener() {
+                        AdEasyImpl.of().showVideo(new RewardVideoResultListener() {
                             @Override
                             public void onRewardVideoResult(boolean result) {
                                 onRewardResult(_id, result);
@@ -148,7 +112,7 @@
 
         public static boolean hasBanner(){
             try {
-                return AdEasy.of().hasBanner();
+                return AdEasyImpl.of().hasBanner();
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -246,19 +210,13 @@
         @Override
         protected void onResume() {
             super.onResume();
-            AdEasy.of().onResume(this, this);
-        }
-
-        @Override
-        protected void onPause() {
-            super.onPause();
-            AdEasy.of().onPause();
+            AdEasyImpl.of().onResume(this);
         }
 
         @Override
         protected void onDestroy() {
             closeBannerAd();
-            AdEasy.of().onDestroy();
+            AdEasyImpl.of().onDestroy();
             super.onDestroy();
         }
 

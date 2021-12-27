@@ -1,6 +1,6 @@
 package com.roman.garden.adeasy;
 
-public class PlatformConfig {
+public final class PlatformConfig {
 
     private String _platform;
 
@@ -26,6 +26,12 @@ public class PlatformConfig {
     public PlatformConfig createVungle(String vungleAppId){
         _platform = AdInfo.GROUP_VUNGLE;
         _appId = vungleAppId;
+        return this;
+    }
+
+    public PlatformConfig createPangle(String pangleAppId){
+        _platform = AdInfo.GROUP_PANGLE;
+        _appId = pangleAppId;
         return this;
     }
 

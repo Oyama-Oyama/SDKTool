@@ -3,7 +3,7 @@ package com.roman.garden.adeasy;
 import android.os.Handler;
 import android.os.Looper;
 
-public class UIHandler extends Handler {
+public final class UIHandler extends Handler {
 
     private UIHandler(){
         super(Looper.getMainLooper());
