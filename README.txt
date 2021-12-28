@@ -26,6 +26,10 @@
     穿山甲（Pangle）广告 需要在项目 build.gradle 文件内添加：
     maven { url 'https://artifact.bytedance.com/repository/pangle' }
 
+    IronSource 广告 需要在项目 build.gradle 文件内添加：
+            maven { url 'https://android-sdk.is.com/' }
+            权限： <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+
 
 6.  在 AppActivity.java 类内 创建 SDK 调用方法
     public class AppActivity extends Cocos2dxActivity implements AdEasyActivityImpl {
@@ -225,4 +229,5 @@
 
 
 TIP:
-    1. 在调用 showBanner 接口时，需要提前调用 closeBanner 接口，防止任务重复
+    1.Pangle 需要填写公司信息  暂时无法使用
+    2. 在调用 showBanner 接口时，需要提前调用 closeBanner 接口，防止任务重复

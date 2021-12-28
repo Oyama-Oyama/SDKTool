@@ -1,5 +1,8 @@
 package com.roman.garden.adeasy;
 
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+
 public final class PlatformConfig {
 
     private String _platform;
@@ -8,44 +11,63 @@ public final class PlatformConfig {
 
     private AdItem _bannerId;
     private AdItem _interstitialId;
-    private AdItem _interstitialVideoId;
     private AdItem _videoId;
     private AdItem _nativeId;
 
-    public PlatformConfig createAdmob(){
-        _platform = AdInfo.GROUP_ADMOB;
-        return this;
-    }
 
-    public PlatformConfig createUnity(String unityAppId){
-        _platform = AdInfo.GROUP_UNITY;
-        _appId = unityAppId;
-        return this;
-    }
+    public static class Builder {
+        PlatformConfig config;
 
-    public PlatformConfig createVungle(String vungleAppId){
-        _platform = AdInfo.GROUP_VUNGLE;
-        _appId = vungleAppId;
-        return this;
-    }
-
-    public PlatformConfig createPangle(String pangleAppId){
-        _platform = AdInfo.GROUP_PANGLE;
-        _appId = pangleAppId;
-        return this;
-    }
-
-    public PlatformConfig addParameter(final String _parameter, final String _type, final int widget){
-        if (_type == AdInfo.TYPE_BANNER){
-            _bannerId = AdItem.build(_platform, _parameter, widget);
-        } else if(_type == AdInfo.TYPE_INTERSTITIAL){
-            _interstitialId = AdItem.build(_platform, _parameter, widget);
-        } else if(_type == AdInfo.TYPE_VIDEO){
-            _videoId = AdItem.build(_platform, _parameter, widget);
-        } else if(_type == AdInfo.TYPE_NATIVE){
-            _nativeId = AdItem.build(_platform, _parameter, widget);
+        public Builder() {
+            config = new PlatformConfig();
         }
-        return this;
+
+        public Builder createWidthAdmob() {
+            config._platform = AdInfo.GROUP_ADMOB;
+            return this;
+        }
+
+        public Builder createWidthUnity(@NonNull String appId) {
+            config._appId = appId;
+            config._platform = AdInfo.GROUP_UNITY;
+            return this;
+        }
+
+        public Builder createWidthPangle(@NonNull String appId) {
+            config._appId = appId;
+            config._platform = AdInfo.GROUP_PANGLE;
+            return this;
+        }
+
+        public Builder createWidthVungle(@NonNull String appId) {
+            config._appId = appId;
+            config._platform = AdInfo.GROUP_VUNGLE;
+            return this;
+        }
+
+        public Builder createWidthAdcolony(@NonNull String appId) {
+            config._appId = appId;
+            config._platform = AdInfo.GROUP_ADCOLONY;
+            return this;
+        }
+
+        public Builder addParameter(@NonNull final String _parameter, @NonNull final String _type, @IntRange(from = 0, to = 100) final int widget) {
+            if (_type == AdInfo.TYPE_BANNER) {
+                config._bannerId = AdItem.build(config._platform, _parameter, widget);
+            } else if (_type == AdInfo.TYPE_INTERSTITIAL) {
+                config._interstitialId = AdItem.build(config._platform, _parameter, widget);
+            } else if (_type == AdInfo.TYPE_VIDEO) {
+                config._videoId = AdItem.build(config._platform, _parameter, widget);
+            } else if (_type == AdInfo.TYPE_NATIVE) {
+                config._nativeId = AdItem.build(config._platform, _parameter, widget);
+            }
+            return this;
+        }
+
+        public PlatformConfig build() {
+            return config;
+        }
+
     }
 
     public String getPlatform() {
@@ -62,10 +84,6 @@ public final class PlatformConfig {
 
     public AdItem getInterstitialId() {
         return _interstitialId;
-    }
-
-    public AdItem getInterstitialVideoId() {
-        return _interstitialVideoId;
     }
 
     public AdItem getVideoId() {

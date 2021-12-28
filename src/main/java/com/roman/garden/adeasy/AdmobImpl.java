@@ -27,7 +27,7 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 
 import org.jetbrains.annotations.NotNull;
 
-public class AdmobImpl extends BaseAdImpl {
+final class AdmobImpl extends BaseAdImpl {
 
     private AdView _banner;
     private InterstitialAd _interstitial;
@@ -156,7 +156,7 @@ public class AdmobImpl extends BaseAdImpl {
                         _native = adManagerAdView;
                         setupNative(item);
                     }
-                })
+                }, AdSize.MEDIUM_RECTANGLE)
                 .withAdListener(new AdListener() {
                     @Override
                     public void onAdFailedToLoad(@NonNull @NotNull LoadAdError loadAdError) {

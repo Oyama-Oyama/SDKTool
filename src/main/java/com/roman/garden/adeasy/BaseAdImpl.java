@@ -105,8 +105,6 @@ abstract class BaseAdImpl implements Observer<PlatformConfig> {
         return _platformConfig.getValue().getNativeId();
     }
 
-    ;
-
     /**
      * 获取激励 id 及优先级
      *

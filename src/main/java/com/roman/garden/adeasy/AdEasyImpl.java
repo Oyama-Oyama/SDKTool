@@ -28,6 +28,7 @@ public class AdEasyImpl {
     private BaseAdImpl _unityImpl;
     private BaseAdImpl _vungleImpl;
     private BaseAdImpl _pangelImpl;
+    private BaseAdImpl _adcolonyImpl;
 
     public static AdEasyImpl of() {
         if (_instance == null) {
@@ -91,6 +92,9 @@ public class AdEasyImpl {
         //pangle
         PlatformConfig _pangle = _applicationImpl.createPlatformConfig(AdInfo.GROUP_PANGLE);
         AdEasyImpl.of().initPangle(_pangle, testMode);
+        //ADColony
+        PlatformConfig _adcolony = _applicationImpl.createPlatformConfig(AdInfo.GROUP_ADCOLONY);
+        AdEasyImpl.of().initAdColony(_adcolony, testMode);
     }
 
     private void initAdmob(@NonNull PlatformConfig _config, boolean testMode, @Nullable String testDeviceId) {
@@ -115,6 +119,12 @@ public class AdEasyImpl {
         if (_config == null) return;
         if (_pangelImpl == null) _pangelImpl = new PangleImpl();
         _pangelImpl.setPlatformConfig(_config, testMode);
+    }
+
+    private void initAdColony(@NonNull PlatformConfig _config, boolean testMode) {
+        if (_config == null) return;
+        if (_adcolonyImpl == null) _adcolonyImpl = new ADColonyImpl();
+        _adcolonyImpl.setPlatformConfig(_config, testMode);
     }
 
     public Activity getActivity() {
@@ -268,11 +278,10 @@ public class AdEasyImpl {
             AdItem item = AdImpl.getInstance().getNative();
             BaseAdImpl _impl = getTargetPlatformImpl(item);
             if (_impl != null) {
-                if (_impl.getNativeView() != null) {
-                    view = _impl.getNativeView();
-                    _impl.reloadNative();
+                view = _impl.getNativeView();
+                _impl.reloadNative();
+                if (view != null)
                     break;
-                }
             }
         }
         return view;
@@ -288,6 +297,8 @@ public class AdEasyImpl {
             return (T) _pangelImpl;
         } else if (item.getAdGroup() == AdInfo.GROUP_VUNGLE) {
             return (T) _vungleImpl;
+        } else if (item.getAdGroup() == AdInfo.GROUP_ADCOLONY){
+            return (T) _adcolonyImpl;
         }
         return null;
     }

@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion '30.0.3'
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -51,6 +51,12 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
 }
 
 dependencies {
@@ -70,7 +76,18 @@ dependencies {
 
     //pangle(穿山甲)
 //    maven { url 'https://artifact.bytedance.com/repository/pangle' }
-    implementation 'com.pangle.global:ads-sdk:3.6.0.4'
-    implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
+//    implementation 'com.pangle.global:ads-sdk:3.6.0.4'
+//    implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
+//    implementation files('libs/unity-ads.aar')
+
+//    implementation 'com.ironsource.sdk:mediationsdk:7.1.13'
+//    implementation 'com.google.android.gms:play-services-appset:16.0.0'
+//    implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
+//    implementation 'com.google.android.gms:play-services-basement:17.6.0'
+
+
+    //ADColony
+    implementation 'com.adcolony:sdk:4.6.5'
+//    implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
 
 }

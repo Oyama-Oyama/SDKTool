@@ -13,7 +13,7 @@ import com.unity3d.services.banners.BannerErrorInfo;
 import com.unity3d.services.banners.BannerView;
 import com.unity3d.services.banners.UnityBannerSize;
 
-public class UnityImpl extends BaseAdImpl {
+final class UnityImpl extends BaseAdImpl {
 
     private BannerView _banner;
 

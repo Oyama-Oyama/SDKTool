@@ -14,7 +14,7 @@ import com.vungle.warren.Vungle;
 import com.vungle.warren.VungleNativeAd;
 import com.vungle.warren.error.VungleException;
 
-public class VungleImpl extends BaseAdImpl {
+final class VungleImpl extends BaseAdImpl {
 
     private boolean _videoRewardResult = false;
 

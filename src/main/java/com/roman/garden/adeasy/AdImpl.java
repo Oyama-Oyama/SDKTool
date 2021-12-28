@@ -38,7 +38,8 @@ final class AdImpl {
         Collections.sort(items, new Comparator<AdItem>() {
             @Override
             public int compare(AdItem item, AdItem t1) {
-                return item.getAdWidget() - t1.getAdWidget();
+                return t1.getAdWidget() - item.getAdWidget();
+//                return item.getAdWidget() - t1.getAdWidget();
             }
         });
     }
