@@ -21,7 +21,6 @@
 #-renamesourcefileattribute SourceFile
 
 # Vungle
-# Vungle
 -dontwarn com.vungle.warren.downloader.DownloadRequestMediator$Status
 -dontwarn com.vungle.warren.error.VungleError$ErrorCode
 
@@ -46,7 +45,7 @@
 -dontwarn javax.annotation.**
 -keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
 -dontwarn org.codehaus.mojo.animal_sniffer.*
--dontwarn okhttp3.internal.platform.ConscryptPlatform;
+-dontwarn okhttp3.internal.platform.ConscryptPlatform
 
 # pangle
 -keep class com.bytedance.sdk.** { *; }

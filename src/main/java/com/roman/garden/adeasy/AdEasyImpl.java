@@ -52,8 +52,8 @@ public class AdEasyImpl {
         _activityImpl = new WeakReference<>(activity);
     }
 
-    public void onDestroy() {
-//        AdImpl.getInstance().getBannerData().removeObserver(_bannerDataObserver);
+    public void onDestroy(@NonNull Activity activity) {
+        cancelBanner(activity);
     }
 
     /**
@@ -180,6 +180,7 @@ public class AdEasyImpl {
                         if (pair.first == taskId) {
                             if (pair.second != null && pair.second.get() != null)
                                 _container = pair.second.get();
+
                             else {
                                 itor.remove();
                                 break;
@@ -212,9 +213,10 @@ public class AdEasyImpl {
         }
     }
 
-    public void cancelBanner() {
-        if (getActivity() != null) {
-            int taskId = getActivity().getTaskId();
+    public void cancelBanner(@NonNull Activity activity) {
+        if (activity != null) {
+
+            int taskId = activity.getTaskId();
             Iterator<Pair<Integer, WeakReference<ViewGroup>>> itor = _bannerContainers.iterator();
             while (itor.hasNext()) {
                 Pair<Integer, WeakReference<ViewGroup>> pair = itor.next();
@@ -267,8 +269,6 @@ public class AdEasyImpl {
     }
 
     public boolean hasNative() {
-
-
         return AdImpl.getInstance().getNativeSize() > 0;
     }
 
@@ -297,7 +297,7 @@ public class AdEasyImpl {
             return (T) _pangelImpl;
         } else if (item.getAdGroup() == AdInfo.GROUP_VUNGLE) {
             return (T) _vungleImpl;
-        } else if (item.getAdGroup() == AdInfo.GROUP_ADCOLONY){
+        } else if (item.getAdGroup() == AdInfo.GROUP_ADCOLONY) {
             return (T) _adcolonyImpl;
         }
         return null;

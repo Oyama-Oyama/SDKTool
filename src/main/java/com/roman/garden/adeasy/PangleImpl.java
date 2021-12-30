@@ -18,7 +18,7 @@ import androidx.annotation.Nullable;
 /**
  * 需要填写公司信息， 暂时无法使用
  */
-public class PangleImpl extends BaseAdImpl {
+final class PangleImpl extends BaseAdImpl {
 
 //    private TTRewardVideoAd _ttRewardVideoAd = null;
 //    private TTFullScreenVideoAd _ttFullScreenVideoAd = null;

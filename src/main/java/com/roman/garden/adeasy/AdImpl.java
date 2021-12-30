@@ -53,6 +53,8 @@ final class AdImpl {
     public void addBanner(@NonNull AdItem item) {
         _banners.add(item);
         sort(_banners);
+        if (_bannerData != null)
+            _bannerData.postValue(_banners);
     }
 
     public AdItem getBanner() {

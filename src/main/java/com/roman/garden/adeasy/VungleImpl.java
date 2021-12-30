@@ -17,6 +17,7 @@ import com.vungle.warren.error.VungleException;
 final class VungleImpl extends BaseAdImpl {
 
     private boolean _videoRewardResult = false;
+    private VungleNativeAd vungleNativeAd = null;
 
     @Override
     protected void initAdPlatform() {
@@ -180,9 +181,13 @@ final class VungleImpl extends BaseAdImpl {
     protected View getNativeView() {
         AdItem item = getNativeId();
         if (validAdItem(item) && Vungle.canPlayAd(item.getAdId())) {
+            if (vungleNativeAd != null) {
+                vungleNativeAd.setAdVisibility(false);
+                vungleNativeAd.finishDisplayingAd();
+            }
             AdConfig config = new AdConfig();
             config.setAdSize(AdConfig.AdSize.VUNGLE_MREC);
-            VungleNativeAd vungleNativeAd = Vungle.getNativeAd(item.getAdId(),
+            vungleNativeAd = Vungle.getNativeAd(item.getAdId(),
                     String.valueOf(System.currentTimeMillis()),
                     config, null);
             if (vungleNativeAd != null) {

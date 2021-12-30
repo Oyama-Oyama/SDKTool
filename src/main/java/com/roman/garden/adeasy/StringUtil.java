@@ -1,6 +1,6 @@
 package com.roman.garden.adeasy;
 
-public class StringUtil {
+final class StringUtil {
 
     public static boolean isEmpty(String src){
         if (src == null)
