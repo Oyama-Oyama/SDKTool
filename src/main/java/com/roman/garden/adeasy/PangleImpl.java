@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
 //import java.util.List;
 
 /**
- * 需要填写公司信息， 暂时无法使用
+ * 需要填写公司信息， 无奈我没有
  */
 final class PangleImpl extends BaseAdImpl {
 

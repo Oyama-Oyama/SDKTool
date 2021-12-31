@@ -2,7 +2,6 @@ package com.roman.garden.adeasy;
 
 import android.app.Activity;
 import android.app.Application;
-import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +9,8 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 public class AdEasyImpl {
 
@@ -41,7 +36,7 @@ public class AdEasyImpl {
     }
 
     public AdEasyImpl() {
-        AdImpl.getInstance().getBannerData().observeForever(_bannerDataObserver);
+
     }
 
     public void onCreate(@NonNull Activity activity) {
@@ -52,8 +47,8 @@ public class AdEasyImpl {
         _activityImpl = new WeakReference<>(activity);
     }
 
-    public void onDestroy(@NonNull Activity activity) {
-        cancelBanner(activity);
+    public void onDestroy() {
+        cancelBanner();
     }
 
     /**
@@ -139,97 +134,67 @@ public class AdEasyImpl {
         this._application = _application;
     }
 
-    private List<Pair<Integer, WeakReference<ViewGroup>>> _bannerContainers = new ArrayList<>();
-
-    private Observer _bannerDataObserver = new Observer<List<AdItem>>() {
-        @Override
-        public void onChanged(List<AdItem> items) {
-            Iterator<Pair<Integer, WeakReference<ViewGroup>>> itor = _bannerContainers.iterator();
-            while (itor.hasNext()) {
-                Pair<Integer, WeakReference<ViewGroup>> pair = itor.next();
-                if (pair.second != null && pair.second.get() != null) {
-                    if (pair.second.get().getChildCount() == 0) {
-                        View bannerView = getBannerView();
-                        if (bannerView != null) {
-                            pair.second.get().addView(bannerView);
-                        }
-                    } else {
-                        itor.remove();
-                    }
-                } else {
-                    itor.remove();
-                }
-            }
-        }
-    };
-
     public boolean hasBanner() {
         return AdImpl.getInstance().getBannerSize() > 0;
     }
 
     public void showBanner() {
+        showBanner(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL);
+    }
+
+    public void showBanner(int gravity) {
         if (getActivity() != null) {
             getActivity().getWindow().getDecorView().post(new Runnable() {
                 @Override
                 public void run() {
-                    ViewGroup _container = null;
-                    int taskId = getActivity().getTaskId();
-                    Iterator<Pair<Integer, WeakReference<ViewGroup>>> itor = _bannerContainers.iterator();
-                    while (itor.hasNext()) {
-                        Pair<Integer, WeakReference<ViewGroup>> pair = itor.next();
-                        if (pair.first == taskId) {
-                            if (pair.second != null && pair.second.get() != null)
-                                _container = pair.second.get();
-
-                            else {
-                                itor.remove();
-                                break;
+                    boolean alreadyAdded = false;
+                    try {
+                        ViewGroup parent = (ViewGroup) getActivity().getWindow().getDecorView();
+                        for (int i = 0; i < parent.getChildCount(); i++) {
+                            Object tag = parent.getChildAt(i).getTag();
+                            if (tag != null) {
+                                if (StringUtil.equal(String.valueOf(tag), Const.TAG_BANNER)) {
+                                    parent.getChildAt(i).setVisibility(View.VISIBLE);
+                                    alreadyAdded = true;
+                                    break;
+                                }
                             }
                         }
-                    }
-
-                    if (_container == null) {
-                        _container = new FrameLayout(getActivity());
-                        _container.setTag(101);
-                        FrameLayout.LayoutParams _params = new FrameLayout.LayoutParams(-2, -2);
-                        _params.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
-                        ((FrameLayout) getActivity().getWindow().getDecorView()).addView(_container, _params);
-                        View bannerView = getBannerView();
-                        if (bannerView != null)
-                            _container.addView(bannerView);
-                        else {
-                            _bannerContainers.add(new Pair<>(taskId, new WeakReference<>(_container)));
+                        if (!alreadyAdded) {
+                            BannerView bannerView = new BannerView(getActivity());
+                            FrameLayout.LayoutParams params = bannerView.buildLayoutParams(gravity);
+                            parent.addView(bannerView, params);
                         }
+                    } catch (Exception e) {
+                        LogUtil.e("show banner failed-->" + e.getMessage());
+                        e.printStackTrace();
                     }
-//                    else {
-//                        if (_container.getChildCount() == 0) {
-//                            View bannerView = getBannerView();
-//                            if (bannerView != null)
-//                                _container.addView(bannerView);
-//                        }
-//                    }
                 }
             });
         }
     }
 
-    public void cancelBanner(@NonNull Activity activity) {
-        if (activity != null) {
-
-            int taskId = activity.getTaskId();
-            Iterator<Pair<Integer, WeakReference<ViewGroup>>> itor = _bannerContainers.iterator();
-            while (itor.hasNext()) {
-                Pair<Integer, WeakReference<ViewGroup>> pair = itor.next();
-                if (pair.first == taskId) {
-                    if (pair.second != null && pair.second.get() != null)
-                        pair.second.get().removeAllViews();
-                    itor.remove();
+    public void cancelBanner() {
+        try {
+            if (getActivity() != null) {
+                ViewGroup parent = (ViewGroup) getActivity().getWindow().getDecorView();
+                for (int i = 0; i < parent.getChildCount(); i++) {
+                    Object tag = parent.getChildAt(i).getTag();
+                    if (tag != null) {
+                        if (StringUtil.equal(String.valueOf(tag), Const.TAG_BANNER)) {
+                            parent.removeView(parent.getChildAt(i));
+                            break;
+                        }
+                    }
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtil.e("close banner failed-->" + e.getMessage());
         }
     }
 
-    private synchronized View getBannerView() {
+    public synchronized View getBannerView() {
         View view = null;
         while (AdImpl.getInstance().getBannerSize() > 0) {
             AdItem item = AdImpl.getInstance().getBanner();

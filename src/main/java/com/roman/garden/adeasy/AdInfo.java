@@ -5,6 +5,7 @@ public final class AdInfo {
     public static final String GROUP_ADMOB = "admob";
     public static final String GROUP_UNITY = "unity";
     public static final String GROUP_VUNGLE = "vungle";
+    @Deprecated
     public static final String GROUP_PANGLE = "pangle";
     public static final String GROUP_ADCOLONY = "adcolony";
 
