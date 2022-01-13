@@ -45,13 +45,7 @@ public class BannerView extends FrameLayout {
     private Observer observer = new Observer<List<AdItem>>() {
         @Override
         public void onChanged(List<AdItem> items) {
-            View view = AdEasyImpl.of().getBannerView();
-            if (view != null) {
-                if (view.getParent() != null)
-                    ((ViewGroup)view.getParent()).removeView(view);
-//                AdImpl.getInstance().getBannerData().removeObserver(observer);
-                BannerView.this.addView(view);
-            }
+            fill();
         }
     };
 
@@ -63,5 +57,15 @@ public class BannerView extends FrameLayout {
         return params;
     }
 
+    protected void fill() {
+        if (getChildCount() > 0) return;
+        View view = AdEasyImpl.of().getBannerView();
+        if (view != null) {
+            if (view.getParent() != null)
+                ((ViewGroup) view.getParent()).removeView(view);
+//                AdImpl.getInstance().getBannerData().removeObserver(observer);
+            BannerView.this.addView(view);
+        }
+    }
 
 }

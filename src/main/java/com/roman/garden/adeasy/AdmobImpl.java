@@ -157,7 +157,7 @@ final class AdmobImpl extends BaseAdImpl {
                     public void onNativeAdLoaded(@NonNull @NotNull NativeAd nativeAd) {
                         NativeTemplateStyle styles = new
                                 NativeTemplateStyle.Builder().withMainBackgroundColor(new ColorDrawable(Color.WHITE)).build();
-                        _native = (TemplateView) View.inflate(AdEasyImpl.of().getApplication(), R.layout.template_small, null);
+                        _native = (TemplateView) View.inflate(AdEasyImpl.of().getApplication(), R.layout.template_medium, null);
                         _native.setStyles(styles);
                         _native.setNativeAd(nativeAd);
                         logEvent(item, AdInfo.TYPE_NATIVE);
