@@ -10,7 +10,10 @@ import androidx.lifecycle.Observer;
 
 import java.util.List;
 
-final class BannerView extends FrameLayout {
+/**
+ * 直接添加此view到布局中，需要确保view不可滑动
+ */
+public class BannerView extends FrameLayout {
 
     public BannerView(@NonNull Context context) {
         super(context);

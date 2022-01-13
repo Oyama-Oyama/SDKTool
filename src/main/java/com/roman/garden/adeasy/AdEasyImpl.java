@@ -237,7 +237,7 @@ public class AdEasyImpl {
         return AdImpl.getInstance().getNativeSize() > 0;
     }
 
-    public View getNativeView() {
+    public synchronized View getNativeView() {
         View view = null;
         while (AdImpl.getInstance().getNativeSize() > 0) {
             AdItem item = AdImpl.getInstance().getNative();

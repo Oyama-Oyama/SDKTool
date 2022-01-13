@@ -18,6 +18,7 @@ final class AdImpl {
     private List<AdItem> _natives = new ArrayList<>();
 
     private MutableLiveData<List<AdItem>> _bannerData = null;
+    private MutableLiveData<List<AdItem>> _nativeData = null;
 
     private static AdImpl _impl = null;
 
@@ -94,6 +95,12 @@ final class AdImpl {
     public void addNative(@NonNull AdItem item) {
         _natives.add(item);
         sort(_natives);
+    }
+
+    public MutableLiveData<List<AdItem>> getNativeData() {
+        if (_nativeData == null)
+            _nativeData = new MutableLiveData<>();
+        return _nativeData;
     }
 
     public AdItem getNative() {
