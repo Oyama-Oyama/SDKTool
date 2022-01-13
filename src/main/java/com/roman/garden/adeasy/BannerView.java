@@ -1,11 +1,13 @@
 package com.roman.garden.adeasy;
 
 import android.content.Context;
-import android.view.Gravity;
+import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 
 import java.util.List;
@@ -16,7 +18,15 @@ import java.util.List;
 public class BannerView extends FrameLayout {
 
     public BannerView(@NonNull Context context) {
-        super(context);
+        this(context, null);
+    }
+
+    public BannerView(@NonNull Context context, @Nullable AttributeSet attrs) {
+        this(context, attrs, -1);
+    }
+
+    public BannerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
     }
 
     @Override
@@ -37,7 +47,9 @@ public class BannerView extends FrameLayout {
         public void onChanged(List<AdItem> items) {
             View view = AdEasyImpl.of().getBannerView();
             if (view != null) {
-                AdImpl.getInstance().getBannerData().removeObserver(observer);
+                if (view.getParent() != null)
+                    ((ViewGroup)view.getParent()).removeView(view);
+//                AdImpl.getInstance().getBannerData().removeObserver(observer);
                 BannerView.this.addView(view);
             }
         }

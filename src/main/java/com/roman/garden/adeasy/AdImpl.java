@@ -54,8 +54,7 @@ final class AdImpl {
     public void addBanner(@NonNull AdItem item) {
         _banners.add(item);
         sort(_banners);
-        if (_bannerData != null)
-            _bannerData.postValue(_banners);
+        getBannerData().postValue(_banners);
     }
 
     public AdItem getBanner() {
@@ -95,6 +94,7 @@ final class AdImpl {
     public void addNative(@NonNull AdItem item) {
         _natives.add(item);
         sort(_natives);
+        getNativeData().postValue(_natives);
     }
 
     public MutableLiveData<List<AdItem>> getNativeData() {

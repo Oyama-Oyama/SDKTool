@@ -1,5 +1,7 @@
 package com.roman.garden.adeasy;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -15,15 +17,16 @@ import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.OnUserEarnedRewardListener;
-import com.google.android.gms.ads.admanager.AdManagerAdView;
-import com.google.android.gms.ads.formats.OnAdManagerAdViewLoadedListener;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
+import com.roman.garden.adeasy.template.NativeTemplateStyle;
+import com.roman.garden.adeasy.template.TemplateView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -32,7 +35,7 @@ final class AdmobImpl extends BaseAdImpl {
     private AdView _banner;
     private InterstitialAd _interstitial;
     private RewardedAd _rewarded;
-    private AdManagerAdView _native;
+    private TemplateView _native;
 
     @Override
     protected void initAdPlatform() {
@@ -149,14 +152,19 @@ final class AdmobImpl extends BaseAdImpl {
         if (!validAdItem(item)) return;
         AdLoader _adLoader = new AdLoader.Builder(AdEasyImpl.of().getApplication(),
                 item.getAdId())
-                .forAdManagerAdView(new OnAdManagerAdViewLoadedListener() {
+                .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
                     @Override
-                    public void onAdManagerAdViewLoaded(@NonNull @NotNull AdManagerAdView adManagerAdView) {
+                    public void onNativeAdLoaded(@NonNull @NotNull NativeAd nativeAd) {
+                        NativeTemplateStyle styles = new
+                                NativeTemplateStyle.Builder().withMainBackgroundColor(new ColorDrawable(Color.WHITE)).build();
+                        _native = (TemplateView) View.inflate(AdEasyImpl.of().getApplication(), R.layout.template_small, null);
+                        _native.setStyles(styles);
+                        _native.setNativeAd(nativeAd);
                         logEvent(item, AdInfo.TYPE_NATIVE);
-                        _native = adManagerAdView;
+
                         setupNative(item);
                     }
-                }, AdSize.MEDIUM_RECTANGLE)
+                })
                 .withAdListener(new AdListener() {
                     @Override
                     public void onAdFailedToLoad(@NonNull @NotNull LoadAdError loadAdError) {

@@ -3,6 +3,7 @@ package com.roman.garden.adeasy;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -48,13 +49,15 @@ public class NativeView extends FrameLayout {
     private void getNative(){
         if (getChildCount() > 0)
             return;
-
+        fillNative();
     }
 
     protected void fillNative(){
         View view = AdEasyImpl.of().getNativeView();
         if (view != null){
-            AdImpl.getInstance().getNativeData().removeObserver(observer);
+//            AdImpl.getInstance().getNativeData().removeObserver(observer);
+            if (view.getParent() != null)
+                ((ViewGroup)view.getParent()).removeView(view);
             addView(view);
         }
     }
