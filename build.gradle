@@ -70,15 +70,20 @@ android {
             force 'androidx.room:room-runtime:2.3.0'
             force 'androidx.sqlite:sqlite:2.1.0'
             force 'androidx.sqlite:sqlite-framework:2.1.0'
+            force 'androidx.constrainlayout:constraintlayout:2.0.4'
+            force 'androidx.constrainlayout:constraintlayout-solver:2.0.4'
         }
     }
 
 }
 
 dependencies {
+
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.lifecycle:lifecycle-process:2.2.0'
+
 //    implementation 'com.google.android.material:material:1.2.1'
     //admob
     implementation 'com.google.android.gms:play-services-ads:20.4.0'
@@ -104,6 +109,7 @@ dependencies {
 
 
     //ADColony
+
     implementation 'com.adcolony:sdk:4.6.5'
 //    implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
 

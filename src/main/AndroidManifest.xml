@@ -27,7 +27,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-5068274441143120~6989875213"/>
+            android:value="ca-app-pub-5068274441143120~9285554423"/>
 
 
         <activity android:name="com.adcolony.sdk.AdColonyInterstitialActivity"

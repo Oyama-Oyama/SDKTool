@@ -14,6 +14,12 @@ import java.util.List;
 
 public class NativeView extends FrameLayout {
 
+    private INativeFillListener listener;
+
+    public interface INativeFillListener {
+        void onFilled();
+    }
+
     public NativeView(@NonNull Context context) {
         this(context, null);
     }
@@ -46,21 +52,25 @@ public class NativeView extends FrameLayout {
         }
     };
 
-    private void getNative(){
+    private void getNative() {
         if (getChildCount() > 0)
             return;
         fillNative();
     }
 
-    protected void fillNative(){
+    protected void fillNative() {
         View view = AdEasyImpl.of().getNativeView();
-        if (view != null){
+        if (view != null) {
 //            AdImpl.getInstance().getNativeData().removeObserver(observer);
             if (view.getParent() != null)
-                ((ViewGroup)view.getParent()).removeView(view);
+                ((ViewGroup) view.getParent()).removeView(view);
             addView(view);
+            if (listener != null)
+                listener.onFilled();
         }
     }
 
-
+    public void setListener(INativeFillListener listener) {
+        this.listener = listener;
+    }
 }

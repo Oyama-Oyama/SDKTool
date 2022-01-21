@@ -114,7 +114,14 @@ abstract class BaseAdImpl implements Observer<PlatformConfig> {
         return _platformConfig.getValue().getVideoId();
     }
 
-    ;
+    /**
+     * 开屏广告ID
+     *
+     * @return
+     */
+    protected AdItem getOpenScreenId() {
+        return _platformConfig.getValue().getOpenScreenId();
+    }
 
     /**
      * 检查广告id是否不为空
@@ -141,8 +148,6 @@ abstract class BaseAdImpl implements Observer<PlatformConfig> {
     protected void setupBanner(@NonNull AdItem item) {
         AdImpl.getInstance().addBanner(item);
     }
-
-    ;
 
     protected abstract View getBannerView();
 
@@ -225,6 +230,15 @@ abstract class BaseAdImpl implements Observer<PlatformConfig> {
     protected void reloadVideo() {
         UIHandler.getInstance().removeCallbacks(videoReloadRunnable);
         UIHandler.getInstance().postDelayed(videoReloadRunnable, Const.AD_RELOAD_DURATION);
+    }
+
+    /**
+     * 开屏广告，暂时只有ADMOB
+     */
+    protected void loadOpenScreen() {
+    }
+
+    public void showOpenScreen() {
     }
 
     protected void logEvent(@NonNull AdItem item, @NonNull String adType) {

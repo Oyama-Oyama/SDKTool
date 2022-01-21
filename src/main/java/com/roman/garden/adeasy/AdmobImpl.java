@@ -36,6 +36,7 @@ final class AdmobImpl extends BaseAdImpl {
     private InterstitialAd _interstitial;
     private RewardedAd _rewarded;
     private TemplateView _native;
+    private AdmobAppOpenManager _appOpenManager = null;
 
     @Override
     protected void initAdPlatform() {
@@ -47,8 +48,16 @@ final class AdmobImpl extends BaseAdImpl {
                         loadInterstitial();
                         loadVideo();
                         loadNative();
+                        loadOpenScreen();
                     }
                 });
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        if (_appOpenManager != null)
+            _appOpenManager.destroy();
     }
 
     @Override
@@ -221,29 +230,47 @@ final class AdmobImpl extends BaseAdImpl {
     @Override
     protected void showVideo(@Nullable @org.jetbrains.annotations.Nullable IVideoResultCallback callback) {
         if (AdEasyImpl.of().getActivity() != null && _rewarded != null) {
-            _rewarded.setFullScreenContentCallback(new FullScreenContentCallback() {
+//                _rewarded.setFullScreenContentCallback(new FullScreenContentCallback() {
+//                    @Override
+//                    public void onAdFailedToShowFullScreenContent(@NonNull @NotNull AdError adError) {
+//                        super.onAdFailedToShowFullScreenContent(adError);
+//                        if (callback != null) callback.onResult(false);
+//                        reloadVideo();
+//                    }
+//
+//                    @Override
+//                    public void onAdDismissedFullScreenContent() {
+//                        super.onAdDismissedFullScreenContent();
+//                        if (callback != null) callback.onResult(false);
+//                        reloadVideo();
+//                    }
+//                });
+//            }
+            _rewarded.show(AdEasyImpl.of().getActivity(), new OnUserEarnedRewardListener() {
                 @Override
-                public void onAdFailedToShowFullScreenContent(@NonNull @NotNull AdError adError) {
-                    super.onAdFailedToShowFullScreenContent(adError);
-                    if (callback != null) callback.onResult(false);
-                    reloadVideo();
-                }
-
-                @Override
-                public void onAdDismissedFullScreenContent() {
-                    super.onAdDismissedFullScreenContent();
-                    if (callback != null) callback.onResult(false);
+                public void onUserEarnedReward(@NonNull @NotNull RewardItem rewardItem) {
+                    if (callback != null) callback.onResult(true);
                     reloadVideo();
                 }
             });
         }
-        _rewarded.show(AdEasyImpl.of().getActivity(), new OnUserEarnedRewardListener() {
-            @Override
-            public void onUserEarnedReward(@NonNull @NotNull RewardItem rewardItem) {
-                if (callback != null) callback.onResult(true);
-                reloadVideo();
-            }
-        });
+    }
+
+    @Override
+    protected void loadOpenScreen() {
+        super.loadOpenScreen();
+        AdItem item = getOpenScreenId();
+        if (!validAdItem(item)) return;
+        if (_appOpenManager == null)
+            _appOpenManager = new AdmobAppOpenManager(item.getAdId());
+        _appOpenManager.loadAd(AdEasyImpl.of().getApplication());
+    }
+
+    @Override
+    public void showOpenScreen() {
+        super.showOpenScreen();
+        if (AdEasyImpl.of().getActivity() != null && _appOpenManager != null)
+            _appOpenManager.showAdIfAvailable(AdEasyImpl.of().getActivity());
     }
 
 

@@ -13,6 +13,7 @@ public final class PlatformConfig {
     private AdItem _interstitialId;
     private AdItem _videoId;
     private AdItem _nativeId;
+    private AdItem _openScreenId;
 
 
     public static class Builder {
@@ -60,6 +61,8 @@ public final class PlatformConfig {
                 config._videoId = AdItem.build(config._platform, _parameter, widget);
             } else if (_type == AdInfo.TYPE_NATIVE) {
                 config._nativeId = AdItem.build(config._platform, _parameter, widget);
+            } else if (_type == AdInfo.TYPE_OPEN_SCREEN){
+                config._openScreenId = AdItem.build(config._platform, _parameter, widget);
             }
             return this;
         }
@@ -92,5 +95,9 @@ public final class PlatformConfig {
 
     public AdItem getNativeId() {
         return _nativeId;
+    }
+
+    public AdItem getOpenScreenId() {
+        return _openScreenId;
     }
 }

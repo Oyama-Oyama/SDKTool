@@ -10,8 +10,9 @@ import com.unity3d.ads.IUnityAdsShowListener;
 import com.unity3d.ads.UnityAds;
 import com.unity3d.services.ads.UnityAdsImplementation;
 import com.unity3d.services.banners.BannerErrorInfo;
-import com.unity3d.services.banners.BannerView;
 import com.unity3d.services.banners.UnityBannerSize;
+import com.unity3d.services.banners.BannerView;
+
 
 final class UnityImpl extends BaseAdImpl {
 

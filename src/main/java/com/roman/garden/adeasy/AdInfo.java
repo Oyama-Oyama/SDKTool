@@ -14,6 +14,7 @@ public final class AdInfo {
     public static final String TYPE_INTERSTITIAL = "interstitial";
     public static final String TYPE_VIDEO = "video";
     public static final String TYPE_NATIVE = "native";
+    public static final String TYPE_OPEN_SCREEN = "openScreen";
 
 
 }

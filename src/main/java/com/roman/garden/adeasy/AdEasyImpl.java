@@ -22,7 +22,7 @@ public class AdEasyImpl {
     private BaseAdImpl _admobImpl;
     private BaseAdImpl _unityImpl;
     private BaseAdImpl _vungleImpl;
-    private BaseAdImpl _pangelImpl;
+    private BaseAdImpl _panglelImpl;
     private BaseAdImpl _adcolonyImpl;
 
     public static AdEasyImpl of() {
@@ -78,6 +78,7 @@ public class AdEasyImpl {
         //admob
         PlatformConfig _admob = _applicationImpl.createPlatformConfig(AdInfo.GROUP_ADMOB);
         AdEasyImpl.of().initAdmob(_admob, testMode, testDeviceId);
+
         //unity
         PlatformConfig _unity = _applicationImpl.createPlatformConfig(AdInfo.GROUP_UNITY);
         AdEasyImpl.of().initUnity(_unity, testMode);
@@ -112,8 +113,8 @@ public class AdEasyImpl {
 
     private void initPangle(@NonNull PlatformConfig _config, boolean testMode) {
         if (_config == null) return;
-        if (_pangelImpl == null) _pangelImpl = new PangleImpl();
-        _pangelImpl.setPlatformConfig(_config, testMode);
+        if (_panglelImpl == null) _panglelImpl = new PangleImpl();
+        _panglelImpl.setPlatformConfig(_config, testMode);
     }
 
     private void initAdColony(@NonNull PlatformConfig _config, boolean testMode) {
@@ -132,6 +133,18 @@ public class AdEasyImpl {
 
     private void setApplication(Application _application) {
         this._application = _application;
+    }
+
+    public void loadOpenScreen(){
+        if(_admobImpl != null){
+            _admobImpl.loadOpenScreen();
+        }
+    }
+
+    public void showOpenScreen(){
+        if(_admobImpl != null){
+            _admobImpl.showOpenScreen();
+        }
     }
 
     public boolean hasBanner() {
@@ -259,7 +272,7 @@ public class AdEasyImpl {
         } else if (item.getAdGroup() == AdInfo.GROUP_UNITY) {
             return (T) _unityImpl;
         } else if (item.getAdGroup() == AdInfo.GROUP_PANGLE) {
-            return (T) _pangelImpl;
+            return (T) _panglelImpl;
         } else if (item.getAdGroup() == AdInfo.GROUP_VUNGLE) {
             return (T) _vungleImpl;
         } else if (item.getAdGroup() == AdInfo.GROUP_ADCOLONY) {
