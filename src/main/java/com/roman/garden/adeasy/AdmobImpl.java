@@ -230,27 +230,28 @@ final class AdmobImpl extends BaseAdImpl {
     @Override
     protected void showVideo(@Nullable @org.jetbrains.annotations.Nullable IVideoResultCallback callback) {
         if (AdEasyImpl.of().getActivity() != null && _rewarded != null) {
-//                _rewarded.setFullScreenContentCallback(new FullScreenContentCallback() {
-//                    @Override
-//                    public void onAdFailedToShowFullScreenContent(@NonNull @NotNull AdError adError) {
-//                        super.onAdFailedToShowFullScreenContent(adError);
-//                        if (callback != null) callback.onResult(false);
-//                        reloadVideo();
-//                    }
-//
-//                    @Override
-//                    public void onAdDismissedFullScreenContent() {
-//                        super.onAdDismissedFullScreenContent();
-//                        if (callback != null) callback.onResult(false);
-//                        reloadVideo();
-//                    }
-//                });
-//            }
+            _rewarded.setFullScreenContentCallback(new FullScreenContentCallback() {
+                @Override
+                public void onAdFailedToShowFullScreenContent(@NonNull @NotNull AdError adError) {
+                    super.onAdFailedToShowFullScreenContent(adError);
+                    //Code to be invoked when the ad showed full screen content.
+                    if (callback != null) callback.onResult(false);
+                    reloadVideo();
+                }
+
+                @Override
+                public void onAdDismissedFullScreenContent() {
+                    super.onAdDismissedFullScreenContent();
+                    //Code to be invoked when the ad dismissed full screen content.
+                    if (callback != null) callback.onResult(false);
+                    reloadVideo();
+                }
+            });
             _rewarded.show(AdEasyImpl.of().getActivity(), new OnUserEarnedRewardListener() {
                 @Override
                 public void onUserEarnedReward(@NonNull @NotNull RewardItem rewardItem) {
                     if (callback != null) callback.onResult(true);
-                    reloadVideo();
+//                    reloadVideo();
                 }
             });
         }
