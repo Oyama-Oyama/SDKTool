@@ -1,4 +1,4 @@
-package com.roman.garden.adeasy;
+package com.roman.garden.adeasy.ad;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,8 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.appopen.AppOpenAd;
+import com.roman.garden.adeasy.AdEasyImpl;
+import com.roman.garden.adeasy.util.StringUtil;
 
 import java.util.Date;
 
@@ -48,7 +50,7 @@ public class AdmobAppOpenManager implements LifecycleObserver {
         }
     }
 
-    public void destroy(){
+    public void destroy() {
         ProcessLifecycleOwner.get().getLifecycle().removeObserver(this);
     }
 
@@ -58,7 +60,7 @@ public class AdmobAppOpenManager implements LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     protected void onMoveToForeground() {
         // Show the ad (if available) when the app moves to foreground.
-        AdEasyImpl.of().showOpenScreen();
+        AdEasyImpl.getInstance().showAppOpen();
     }
 
     /**
@@ -67,7 +69,7 @@ public class AdmobAppOpenManager implements LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     protected void onMoveToBackground() {
         // Show the ad (if available) when the app moves to foreground.
-        AdEasyImpl.of().loadOpenScreen();
+        AdEasyImpl.getInstance().loadAppOpen();
     }
 
     /**
@@ -101,7 +103,6 @@ public class AdmobAppOpenManager implements LifecycleObserver {
                         appOpenAd = ad;
                         isLoadingAd = false;
                         loadTime = (new Date()).getTime();
-
                     }
 
                     /**
@@ -169,7 +170,6 @@ public class AdmobAppOpenManager implements LifecycleObserver {
         // If the app open ad is not available yet, invoke the callback then load the ad.
         if (!isAdAvailable()) {
             onShowAdCompleteListener.onShowAdComplete();
-            loadAd(activity);
             return;
         }
 
@@ -183,7 +183,6 @@ public class AdmobAppOpenManager implements LifecycleObserver {
                         isShowingAd = false;
 
                         onShowAdCompleteListener.onShowAdComplete();
-                        loadAd(activity);
                     }
 
                     /** Called when fullscreen content failed to show. */
@@ -193,7 +192,6 @@ public class AdmobAppOpenManager implements LifecycleObserver {
                         isShowingAd = false;
 
                         onShowAdCompleteListener.onShowAdComplete();
-                        loadAd(activity);
                     }
 
                     /** Called when fullscreen content is shown. */
