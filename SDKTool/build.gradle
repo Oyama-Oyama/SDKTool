@@ -102,7 +102,6 @@ dependencies {
 
 //    implementation(name: 'unity-ads', ext: 'aar')
 //    implementation files('libs/unity-ads.aar')
-//    implementation project(path: ':unity')
 
     implementation 'com.github.Unity-Technologies:unity-ads-android:4.0.0'
 //    //vungle
