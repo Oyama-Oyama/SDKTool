@@ -1,0 +1,2 @@
+include ':app', 'SDKTool', ":unity"
+rootProject.name = "SdkTools"
