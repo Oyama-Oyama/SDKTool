@@ -3,8 +3,6 @@ plugins {
     id 'maven-publish'
 }
 
-
-
 android {
     compileSdkVersion 30
     buildToolsVersion '30.0.3'
@@ -127,9 +125,9 @@ afterEvaluate {
                 from components.release
 
                 // You can then customize attributes of the publication as shown below.
-                groupId = 'com.cherry'
-                artifactId = 'sdkTool'
-                version = '1.0.0'
+                groupId = 'com.github.Oyama-Oyama'
+                artifactId = 'SDKTool'
+                version = '1.1.0'
             }
             // Creates a Maven publication called “debug”.
 //            debug(MavenPublication) {
