@@ -50,12 +50,12 @@ public final class AdEasyImpl implements IAdEasy {
     @Override
     public void init(@NonNull Application application, IAdEasyApplicationImpl impl) {
         this.init(application, impl, null);
-        CacheUtil.init(application);
     }
 
     @Override
     public void init(@NonNull Application application, IAdEasyApplicationImpl impl, String testDeviceId) {
         _application = application;
+        CacheUtil.init(application);
         if (impl == null)
             throw new NullPointerException("AdEasy initialize error, IAdEasyApplicationImpl can not be null");
         initAdGroup(impl, testDeviceId);
