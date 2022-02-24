@@ -20,7 +20,7 @@ import com.roman.garden.adeasy.ad.impl.BaseAdImpl;
 
 public class NativeVessel extends FrameLayout {
 
-    private int templateLayoutId = -1;
+    protected int templateLayoutId = -1;
 
     private AdImpl impl = null;
 
