@@ -5,7 +5,7 @@
     <com.google.android.gms.ads.nativead.NativeAdView
         android:id="@+id/native_ad_view"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/gnt_outline_shape">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,14 +34,13 @@
                 android:id="@+id/middle"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginTop="@dimen/gnt_default_margin"
-                app:layout_constraintBottom_toTopOf="@+id/body"
+                android:layout_marginTop="4dp"
+                app:layout_constraintBottom_toTopOf="@+id/cta"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/media_view">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-
                     android:layout_width="@dimen/gnt_no_size"
                     android:layout_height="@dimen/gnt_no_size"
                     android:orientation="horizontal"
@@ -81,7 +80,7 @@
                             android:id="@+id/headline"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/gnt_no_size"
-                            android:layout_weight="0.5"
+                            android:layout_weight="0.4"
                             android:background="@color/gnt_white"
                             android:gravity="left"
                             android:orientation="horizontal"
@@ -113,7 +112,7 @@
                             android:id="@+id/row_two"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/gnt_no_size"
-                            android:layout_weight="0.5"
+                            android:layout_weight="0.6"
                             android:orientation="horizontal"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -151,6 +150,7 @@
                                 android:stepSize="0.1"
                                 android:textColor="@color/gnt_gray"
                                 android:textSize="@dimen/gnt_text_size_small"
+                                android:visibility="gone"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/ad_notification_view"
@@ -171,40 +171,41 @@
                                 android:lines="1"
                                 android:textColor="@color/gnt_gray"
                                 android:textSize="@dimen/gnt_text_size_small"
+                                android:visibility="gone"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/ad_notification_view"
                                 app:layout_constraintTop_toTopOf="parent"></TextView>
 
+                            <TextView
+                                android:id="@+id/body"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/gnt_no_size"
+                                android:layout_marginBottom="@dimen/gnt_default_margin"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:paddingLeft="@dimen/gnt_default_margin"
+                                android:paddingBottom="@dimen/gnt_default_margin"
+                                android:textSize="12sp"
+                                app:layout_constraintBottom_toTopOf="@+id/cta"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/middle" />
+
                         </LinearLayout>
 
-
                     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/body"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/gnt_no_size"
-                android:layout_marginBottom="@dimen/gnt_default_margin"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:paddingLeft="@dimen/gnt_default_margin"
-                android:paddingBottom="@dimen/gnt_default_margin"
-                app:layout_constraintBottom_toTopOf="@+id/cta"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/middle" />
-
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/cta"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginRight="5dp"
                 android:background="@color/gnt_blue"
                 android:gravity="center"
@@ -213,7 +214,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/body" />
+                app:layout_constraintTop_toBottomOf="@id/middle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.gms.ads.nativead.NativeAdView>
