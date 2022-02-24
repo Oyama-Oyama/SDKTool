@@ -10,6 +10,7 @@ import androidx.annotation.GravityInt;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 
 import com.roman.garden.adeasy.ad.AdInfo;
 import com.roman.garden.adeasy.ad.IRewardedResultCallback;
@@ -209,6 +210,19 @@ public final class AdEasyImpl implements IAdEasy {
         if (_admobImpl != null)
             _admobImpl.showAppOpen();
     }
+
+    @Override
+    public void registerAppOpenListener(Observer<Boolean> listener) {
+        if (_admobImpl != null)
+            _admobImpl.registerAppOpenListener(listener);
+    }
+
+    @Override
+    public void unregisterAppOpenListener(Observer<Boolean> listener) {
+        if (_admobImpl != null)
+            _admobImpl.unregisterAppOpenListener(listener);
+    }
+
 
     @Override
     public void rate() {

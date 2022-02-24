@@ -136,7 +136,7 @@ afterEvaluate {
 
                 groupId = 'com.github.Oyama-Oyama'
                 artifactId = 'SDKTool'
-                version = '1.1.3'
+                version = '1.1.4'
             }
         }
     }

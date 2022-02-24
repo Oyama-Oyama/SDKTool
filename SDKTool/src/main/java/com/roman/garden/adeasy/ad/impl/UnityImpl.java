@@ -331,6 +331,16 @@ public class UnityImpl extends BaseAdImpl {
     }
 
     @Override
+    public void registerAppOpenListener(Observer<Boolean> listener) {
+
+    }
+
+    @Override
+    public void unregisterAppOpenListener(Observer<Boolean> listener) {
+
+    }
+
+    @Override
     public AdImpl getNativeLive() {
         return null;
     }

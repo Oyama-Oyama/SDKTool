@@ -396,6 +396,18 @@ public class AdmobImpl extends BaseAdImpl {
     }
 
     @Override
+    public void registerAppOpenListener(Observer<Boolean> listener) {
+        if (admobAppOpenManager != null)
+            admobAppOpenManager.registerAppOpenListener(listener);
+    }
+
+    @Override
+    public void unregisterAppOpenListener(Observer<Boolean> listener) {
+        if (admobAppOpenManager != null)
+            admobAppOpenManager.unregisterAppOpenListener(listener);
+    }
+
+    @Override
     public AdImpl getBannerLive() {
         return _bannerImpl;
     }

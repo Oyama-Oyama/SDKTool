@@ -4,6 +4,7 @@ import android.view.View;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Observer;
 
 import com.roman.garden.adeasy.ad.AdImpl;
 import com.roman.garden.adeasy.ad.AdItem;
@@ -71,6 +72,9 @@ public abstract class BaseAdImpl {
     public abstract void loadAppOpen();
 
     public abstract void showAppOpen();
+
+    public abstract void registerAppOpenListener(Observer<Boolean> listener);
+    public abstract void unregisterAppOpenListener(Observer<Boolean> listener);
 
     public abstract AdImpl getBannerLive();
 

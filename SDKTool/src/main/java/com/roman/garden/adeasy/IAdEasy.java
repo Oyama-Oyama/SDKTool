@@ -8,6 +8,7 @@ import androidx.annotation.GravityInt;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 
 import com.roman.garden.adeasy.ad.IRewardedResultCallback;
 
@@ -53,6 +54,10 @@ interface IAdEasy {
     void loadAppOpen();
 
     void showAppOpen();
+
+    void registerAppOpenListener(Observer<Boolean> listener);
+
+    void unregisterAppOpenListener(Observer<Boolean> listener);
 
     void rate();
 

@@ -6,6 +6,8 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ProcessLifecycleOwner;
 
@@ -30,6 +32,16 @@ public class AdmobAppOpenManager implements LifecycleObserver {
     private AppOpenAd appOpenAd = null;
     private boolean isLoadingAd = false;
     private boolean isShowingAd = false;
+
+    private MutableLiveData<Boolean> statusObserver = new MutableLiveData<>();
+
+    public void registerAppOpenListener(Observer<Boolean> listener) {
+        statusObserver.observeForever(listener);
+    }
+
+    public void unregisterAppOpenListener(Observer<Boolean> listener) {
+        statusObserver.removeObserver(listener);
+    }
 
     /**
      * Keep track of the time an app open ad is loaded to ensure you don't show an expired ad.
@@ -149,6 +161,7 @@ public class AdmobAppOpenManager implements LifecycleObserver {
                     public void onShowAdComplete() {
                         // Empty because the user will go back to the activity that shows the ad.
 //                        AdEasyImpl.of().loadOpenScreen();
+                        statusObserver.postValue(false);
                     }
                 });
     }
@@ -197,7 +210,7 @@ public class AdmobAppOpenManager implements LifecycleObserver {
                     /** Called when fullscreen content is shown. */
                     @Override
                     public void onAdShowedFullScreenContent() {
-
+                        statusObserver.postValue(true);
                     }
                 });
 
