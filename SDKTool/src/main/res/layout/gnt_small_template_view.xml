@@ -118,6 +118,7 @@
 
                         <RatingBar
                             android:id="@+id/rating_bar"
+                            android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginStart="@dimen/gnt_no_margin"
@@ -139,6 +140,7 @@
 
                         <TextView
                             android:id="@+id/secondary"
+                            android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginStart="@dimen/gnt_no_margin"
@@ -154,6 +156,22 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@id/ad_notification_view"
                             app:layout_constraintTop_toTopOf="parent"></TextView>
+
+                        <TextView
+                            android:id="@+id/body"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/gnt_no_size"
+                            android:layout_marginBottom="@dimen/gnt_default_margin"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:paddingLeft="@dimen/gnt_default_margin"
+                            android:paddingBottom="@dimen/gnt_default_margin"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toTopOf="@+id/cta"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/middle" />
 
                     </LinearLayout>
 
