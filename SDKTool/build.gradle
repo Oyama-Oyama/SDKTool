@@ -95,7 +95,7 @@ dependencies {
 
 //    implementation 'com.google.android.material:material:1.2.1'
     //admob
-    implementation 'com.google.android.gms:play-services-ads:20.4.0'
+    api 'com.google.android.gms:play-services-ads:20.4.0'
 //    implementation fileTree(dir: 'libs', include: ['*.aar'])
 
 //    implementation(name: 'unity-ads', ext: 'aar')
@@ -136,7 +136,7 @@ afterEvaluate {
 
                 groupId = 'com.github.Oyama-Oyama'
                 artifactId = 'SDKTool'
-                version = '1.1.5'
+                version = '1.1.6'
             }
         }
     }
