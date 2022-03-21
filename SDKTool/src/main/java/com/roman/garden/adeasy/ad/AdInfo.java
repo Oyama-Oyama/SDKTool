@@ -21,4 +21,10 @@ public final class AdInfo {
     public static final int PRICE_ALL = 3;
 
 
+    public static final String STATUS_AD_LOADED = "1";
+    public static final String STATUS_AD_LOAD_FAILED = "2";
+    public static final String STATUS_AD_SHOW = "3";
+    public static final String STATUS_AD_SHOW_FAILED = "4";
+    public static final String STATUS_AD_SHOW_COMPLETED = "5";
+
 }

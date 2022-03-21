@@ -47,6 +47,8 @@ interface IAdEasy {
 
     void showInterstitial();
 
+    void showInterstitial(@Nullable IAdListener adListener);
+
     boolean hasVideo();
 
     void showVideo(@Nullable IRewardedResultCallback callback);

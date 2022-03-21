@@ -3,9 +3,11 @@ package com.roman.garden.adeasy.ad.impl;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 
 import com.roman.garden.adeasy.AdEasyImpl;
+import com.roman.garden.adeasy.IAdListener;
 import com.roman.garden.adeasy.ad.AdImpl;
 import com.roman.garden.adeasy.ad.AdInfo;
 import com.roman.garden.adeasy.ad.AdItem;
@@ -182,7 +184,7 @@ public class UnityImpl extends BaseAdImpl {
     }
 
     @Override
-    public void showInterstitial() {
+    public void showInterstitial(@Nullable IAdListener listener) {
         if (hasInterstitial() && AdEasyImpl.getInstance().getActivity() != null) {
             UnityAds.show(AdEasyImpl.getInstance().getActivity(),
                     _interstitial.unityInterstitial,
@@ -193,6 +195,8 @@ public class UnityImpl extends BaseAdImpl {
                                 _interstitial.setUnityInterstitial(null);
                                 _interstitial.reset();
                             }
+                            if (listener != null)
+                                listener.onAdShowError();
                         }
 
                         @Override
@@ -201,6 +205,8 @@ public class UnityImpl extends BaseAdImpl {
                                 _interstitial.setUnityInterstitial(null);
                                 _interstitial.reset();
                             }
+                            if (listener != null)
+                                listener.onAdShowStart();
                         }
 
                         @Override
@@ -210,7 +216,8 @@ public class UnityImpl extends BaseAdImpl {
 
                         @Override
                         public void onUnityAdsShowComplete(String s, UnityAds.UnityAdsShowCompletionState unityAdsShowCompletionState) {
-
+                            if (listener != null)
+                                listener.onAdCompleted();
                         }
                     });
         }

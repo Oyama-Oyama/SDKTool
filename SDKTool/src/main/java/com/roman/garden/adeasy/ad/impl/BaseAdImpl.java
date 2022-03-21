@@ -1,11 +1,14 @@
 package com.roman.garden.adeasy.ad.impl;
 
+import android.util.Pair;
 import android.view.View;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 
+import com.roman.garden.adeasy.IAdListener;
 import com.roman.garden.adeasy.ad.AdImpl;
 import com.roman.garden.adeasy.ad.AdItem;
 import com.roman.garden.adeasy.ad.IRewardedResultCallback;
@@ -51,7 +54,7 @@ public abstract class BaseAdImpl {
 
     abstract void loadInterstitial(@NonNull AdItem adItem);
 
-    public abstract void showInterstitial();
+    public abstract void showInterstitial(@Nullable IAdListener listener);
 
     public abstract boolean hasInterstitial();
 
@@ -74,6 +77,7 @@ public abstract class BaseAdImpl {
     public abstract void showAppOpen();
 
     public abstract void registerAppOpenListener(Observer<Boolean> listener);
+
     public abstract void unregisterAppOpenListener(Observer<Boolean> listener);
 
     public abstract AdImpl getBannerLive();

@@ -2,9 +2,11 @@ package com.roman.garden.adeasy.ad.impl;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Pair;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 
 import com.google.android.gms.ads.AdError;
@@ -27,6 +29,7 @@ import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.roman.garden.adeasy.AdEasyImpl;
+import com.roman.garden.adeasy.IAdListener;
 import com.roman.garden.adeasy.ad.AdImpl;
 import com.roman.garden.adeasy.ad.AdInfo;
 import com.roman.garden.adeasy.ad.AdItem;
@@ -205,12 +208,13 @@ public class AdmobImpl extends BaseAdImpl {
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                         super.onAdFailedToLoad(loadAdError);
                         if (_interstitialImpl != null) _interstitialImpl.autoUpdate();
+
                     }
                 });
     }
 
     @Override
-    public void showInterstitial() {
+    public void showInterstitial(@Nullable IAdListener listener) {
         if (hasInterstitial() && AdEasyImpl.getInstance().getActivity() != null) {
             _interstitialImpl._interstitial.setFullScreenContentCallback(new FullScreenContentCallback() {
                 @Override
@@ -220,6 +224,8 @@ public class AdmobImpl extends BaseAdImpl {
                         _interstitialImpl._interstitial = null;
                         _interstitialImpl.reset();
                     }
+                    if (listener != null)
+                        listener.onAdShowError();
                 }
 
                 @Override
@@ -229,11 +235,15 @@ public class AdmobImpl extends BaseAdImpl {
                         _interstitialImpl._interstitial = null;
                         _interstitialImpl.reset();
                     }
+                    if (listener != null)
+                        listener.onAdShowStart();
                 }
 
                 @Override
                 public void onAdDismissedFullScreenContent() {
                     super.onAdDismissedFullScreenContent();
+                    if (listener != null)
+                        listener.onAdCompleted();
                 }
             });
             _interstitialImpl._interstitial.show(AdEasyImpl.getInstance().getActivity());

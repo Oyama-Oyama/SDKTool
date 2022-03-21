@@ -2,6 +2,7 @@ package com.roman.garden.adeasy;
 
 import android.app.Activity;
 import android.app.Application;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -10,6 +11,7 @@ import androidx.annotation.GravityInt;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.roman.garden.adeasy.ad.AdInfo;
@@ -159,19 +161,24 @@ public final class AdEasyImpl implements IAdEasy {
 
     @Override
     public void showInterstitial() {
+       showInterstitial(null);
+    }
+
+    @Override
+    public void showInterstitial(@Nullable IAdListener adListener) {
         if (_admobImpl != null && _admobImpl.hasInterstitial() &&
                 _unityImpl != null && _unityImpl.hasInterstitial()) {
             int _admobWeights = _admobImpl.getWeights(AdInfo.TYPE_INTERSTITIAL);
             int _unityWeights = _unityImpl.getWeights(AdInfo.TYPE_INTERSTITIAL);
             if (_admobWeights >= _unityWeights) {
-                _admobImpl.showInterstitial();
+                _admobImpl.showInterstitial(adListener);
             } else {
-                _unityImpl.showInterstitial();
+                _unityImpl.showInterstitial(adListener);
             }
         } else if (_admobImpl != null && _admobImpl.hasInterstitial()) {
-            _admobImpl.showInterstitial();
+            _admobImpl.showInterstitial(adListener);
         } else if (_unityImpl != null && _unityImpl.hasInterstitial()) {
-            _unityImpl.showInterstitial();
+            _unityImpl.showInterstitial(adListener);
         }
     }
 
