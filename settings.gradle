@@ -2,17 +2,17 @@ include ':app', 'SDKTool'
 rootProject.name = "SdkTools"
 
 // Example project-level settings.gradle
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        // ... other project repositories
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url 'https://jitpack.io' }
-        maven { url "https://oss.jfrog.org/libs-snapshot" }
-        maven {
-            url "https://artifactory.appodeal.com/appodeal"
-        }
-    }
-}
+//dependencyResolutionManagement {
+//    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+//    repositories {
+//        // ... other project repositories
+//        google()
+//        jcenter()
+//        mavenCentral()
+//        maven { url 'https://jitpack.io' }
+//        maven { url "https://oss.jfrog.org/libs-snapshot" }
+//        maven {
+//            url "https://artifactory.appodeal.com/appodeal"
+//        }
+//    }
+//}
