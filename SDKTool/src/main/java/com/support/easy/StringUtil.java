@@ -1,4 +1,4 @@
-package com.roman.garden.adeasy.util;
+package com.support.easy;
 
 public class StringUtil {
 

@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion '30.0.3'
+    compileSdkVersion 31
+    //buildToolsVersion '31.0.0'
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0.0"
         multiDexEnabled true
@@ -57,69 +57,40 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    repositories {
-        flatDir {
-            dirs 'libs'   // aar目录
-        }
-    }
+//    repositories {
+//        flatDir {
+//            dirs 'libs'   // aar目录
+//        }
+//    }
 
-    configurations.all {
-        resolutionStrategy {
-            force "androidx.annotation:annotation:1.3.0"
-            force "androidx.core:core:1.6.0" //降低 core-ktx的版本号，避免compileSdkVersion 必须高于 30
-            force "androidx.arch.core:core:2.1.0"
-            force "androidx.arch.core:core-runtime:2.1.0"
-            force 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
-            force 'androidx.lifecycle:lifecycle-common:2.3.1'
-            force 'androidx.lifecycle:lifecycle-runtime:2.3.1'
-            force 'androidx.recyclerview:recyclerview:1.2.1'
-            force 'androidx.room:room-common:2.3.0'
-            force 'androidx.room:room-runtime:2.3.0'
-            force 'androidx.sqlite:sqlite:2.1.0'
-            force 'androidx.sqlite:sqlite-framework:2.1.0'
-            force 'androidx.constrainlayout:constraintlayout:2.0.4'
-            force 'androidx.constrainlayout:constraintlayout-solver:2.0.4'
-        }
-    }
+//    configurations.all {
+//        resolutionStrategy {
+//            force "androidx.annotation:annotation:1.3.0"
+//            force "androidx.core:core:1.6.0" //降低 core-ktx的版本号，避免compileSdkVersion 必须高于 30
+//            force "androidx.arch.core:core:2.1.0"
+//            force "androidx.arch.core:core-runtime:2.1.0"
+//            force 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
+//            force 'androidx.lifecycle:lifecycle-common:2.3.1'
+//            force 'androidx.lifecycle:lifecycle-runtime:2.3.1'
+//            force 'androidx.recyclerview:recyclerview:1.2.1'
+//            force 'androidx.room:room-common:2.3.0'
+//            force 'androidx.room:room-runtime:2.3.0'
+//            force 'androidx.sqlite:sqlite:2.1.0'
+//            force 'androidx.sqlite:sqlite-framework:2.1.0'
+//            force 'androidx.constrainlayout:constraintlayout:2.0.4'
+//            force 'androidx.constrainlayout:constraintlayout-solver:2.0.4'
+//        }
+//    }
 
 }
 
 dependencies {
-
-//    implementation fileTree(dir: 'libs', include: ['*.jar'])
-//    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.lifecycle:lifecycle-process:2.2.0'
+    implementation 'com.google.android.gms:play-services-ads:20.4.0'
     implementation 'com.tencent:mmkv-static:1.2.9'
-    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    // Because RxAndroid releases are few and far between, it is recommended you also
-    // explicitly depend on RxJava's latest version for bug fixes and new features.
-    // (see https://github.com/ReactiveX/RxJava/releases for latest 3.x.x version)
-    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
-
-//    implementation 'com.google.android.material:material:1.2.1'
-    //admob
-    api 'com.google.android.gms:play-services-ads:20.4.0'
-//    implementation fileTree(dir: 'libs', include: ['*.aar'])
-
-//    implementation(name: 'unity-ads', ext: 'aar')
-//    implementation files('libs/unity-ads.aar')
-
-    implementation 'com.github.Unity-Technologies:unity-ads-android:4.0.0'
-//    //vungle
-//    implementation 'com.vungle:publisher-sdk-android:6.10.1'
-//    // vungle Recommended for SDK to be able to get Android Advertising ID
-//    implementation 'com.google.android.gms:play-services-basement:17.6.0'
-//    implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
-    //unity
-//    implementation(name: 'unity-ads', ext: 'aar')
-
-    //ADColony 保留 adcolony 如果需要在admob瀑布流增加广告源
-//    implementation 'com.adcolony:sdk:4.6.5'
-//    implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
-
-
+    implementation 'com.explorestack:consent:1.0.5'
+    implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
+    implementation 'com.appodeal.ads:sdk:2.11.1.+'
 }
 
 afterEvaluate {
@@ -142,7 +113,7 @@ afterEvaluate {
 
                 groupId = 'com.github.Oyama-Oyama'
                 artifactId = 'SDKTool'
-                version = '1.1.8.2'
+                version = '2.0.0'
             }
         }
     }

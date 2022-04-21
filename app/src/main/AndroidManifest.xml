@@ -15,11 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SdkTools">
 
-        <meta-data android:name="applovin.sdk.key"
-            android:value="X_-QV0ZTUDaRLdtDbeXEC_GWssscCMRm1XSzqCf_K_GUCXvcOHAoH6OFi-s68X-nQxcHJaiSl-5b7Nx3TEQrAS"/>
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1" />
 
-
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -6,12 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <FrameLayout
+        android:id="@+id/nativevv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#0f0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
     <Button
         android:id="@+id/full"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="full ad"
-        app:layout_constraintBottom_toTopOf="@id/banner"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +39,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="reward ad"
-        app:layout_constraintBottom_toTopOf="@id/hbanner"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/banner" />
@@ -41,57 +48,45 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="hide banner ad"
-        app:layout_constraintBottom_toTopOf="@id/showNative"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/reward" />
 
-
     <Button
-        android:id="@+id/showNative"
+        android:id="@+id/showNativeNormal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="showNative"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="showNativeNormal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/hbanner" />
 
     <Button
-        android:id="@+id/hideNative"
+        android:id="@+id/showNativeAppWall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="hide Native"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="showNativeAppWall"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/showNative" />
+        app:layout_constraintTop_toBottomOf="@id/showNativeNormal" />
 
-    <FrameLayout
-        android:id="@+id/nativevv"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/showNativeNewsFeed"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="showNativeNewsFeed"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/showNativeAppWall" />
 
-    <com.roman.garden.adeasy.ad.view.NativeVessel
-        app:gnt_template_type="@layout/template_small"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/showNativeContentStream"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="showNativeContentStream"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/showNativeNewsFeed" />
 
-    <com.roman.garden.adeasy.ad.view.BannerVessel
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

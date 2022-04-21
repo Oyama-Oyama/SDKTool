@@ -1,4 +1,4 @@
-package com.roman.garden.adeasy.ad;
+package com.support.easy;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,8 +16,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.appopen.AppOpenAd;
-import com.roman.garden.adeasy.AdEasyImpl;
-import com.roman.garden.adeasy.util.StringUtil;
+
 
 import java.util.Date;
 
@@ -72,7 +71,7 @@ public class AdmobAppOpenManager implements LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     protected void onMoveToForeground() {
         // Show the ad (if available) when the app moves to foreground.
-        AdEasyImpl.getInstance().showAppOpen();
+        AdEasy.showAppOpenAd();
     }
 
     /**
@@ -81,7 +80,7 @@ public class AdmobAppOpenManager implements LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     protected void onMoveToBackground() {
         // Show the ad (if available) when the app moves to foreground.
-        AdEasyImpl.getInstance().loadAppOpen();
+        AdEasy.loadAppOpenAd();
     }
 
     /**
