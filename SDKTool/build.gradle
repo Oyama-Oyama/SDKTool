@@ -91,14 +91,21 @@ dependencies {
     implementation 'com.explorestack:consent:1.0.5'
     implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
 //    implementation 'com.appodeal.ads:sdk:2.11.1.+'
-    implementation 'com.appodeal.ads.sdk:core:2.11.1'
-    implementation 'com.appodeal.ads.sdk.networks:adcolony:2.11.1.22'
-    implementation 'com.appodeal.ads.sdk.networks:applovin:2.11.1.24'
-    implementation 'com.appodeal.ads.sdk.networks:bidmachine:2.11.1.21'
-    implementation 'com.appodeal.ads.sdk.networks:admob:2.11.1.18'
-    implementation 'com.appodeal.ads.sdk.networks:facebook:2.11.1.23'
+//    implementation 'com.appodeal.ads.sdk:core:2.11.1'
+//    implementation 'com.appodeal.ads.sdk.networks:adcolony:2.11.1.22'
+//    implementation 'com.appodeal.ads.sdk.networks:applovin:2.11.1.24'
+//    implementation 'com.appodeal.ads.sdk.networks:bidmachine:2.11.1.21'
+//    implementation 'com.appodeal.ads.sdk.networks:admob:2.11.1.18'
+//    implementation 'com.appodeal.ads.sdk.networks:facebook:2.11.1.23'
 //    implementation 'com.appodeal.ads.sdk.networks:unity_ads:2.11.1.17'
 //    implementation 'com.appodeal.ads.sdk.networks:yandex:2.11.1.16'
+
+
+    implementation ('com.appodeal.ads:sdk:2.11.1.+') {
+        exclude group: 'com.appodeal.ads.sdk.networks', module: 'ironsource'
+        exclude group: 'com.appodeal.ads.sdk.networks', module: 'my_target'
+        exclude group: 'com.appodeal.ads.sdk.networks', module: 'ogury'
+    }
 }
 
 //apply plugin: 'maven'
@@ -134,7 +141,7 @@ afterEvaluate {
 
                 groupId = 'com.github.Oyama-Oyama'
                 artifactId = 'SDKTool'
-                version = '2.0.4'
+                version = '2.0.5'
             }
         }
     }
