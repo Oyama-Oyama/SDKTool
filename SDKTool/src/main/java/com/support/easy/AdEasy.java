@@ -407,6 +407,8 @@ public class AdEasy {
     }
 
     public static void loadAppOpenAd() {
+        if (StringUtil.isEmpty(ADMOB_APP_OPEN_ID))
+            return;
         if (_admobAppOpenManager == null)
             _admobAppOpenManager = new AdmobAppOpenManager(ADMOB_APP_OPEN_ID);
         if (_activity != null && _activity.get() != null)

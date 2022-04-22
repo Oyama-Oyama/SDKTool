@@ -93,29 +93,7 @@
 -keepclassmembers class com.adcolony.sdk.ADCNative** { *; }
 
 #Vungle
--keepattributes *Annotation*, Signature
--keep class com.vungle.** { *;}
--dontwarn com.vungle.**
--dontnote com.vungle.**
--dontwarn com.moat.**
--keep class com.moat.analytics.mobile.vng.** { *;}
--keep class com.moat.** { public protected private *; }
--keep class dagger.**
--dontwarn de.greenrobot.event.util.**
--keep class de.greenrobot.event.**
--keep class javax.inject.**
--keep class rx.**
--dontwarn rx.**
--keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {undefined
-   long producerIndex;
-   long consumerIndex;
-}
--keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {undefined
-   rx.internal.util.atomic.LinkedQueueNode producerNode;
-}
--keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {undefined
-   rx.internal.util.atomic.LinkedQueueNode consumerNode;
-}
+#
 
 # Admob
 -keep class com.google.android.gms.ads.** { *; }
