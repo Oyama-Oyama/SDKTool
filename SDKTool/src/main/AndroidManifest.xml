@@ -19,10 +19,10 @@
             tools:node="merge" />
         <!--        //Google 官方建议值为 2.1-->
 
-        <meta-data
-            tools:node="merge"
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-5068274441143120~7108007382"/>
+<!--        <meta-data-->
+<!--            tools:node="merge"-->
+<!--            android:name="com.google.android.gms.ads.APPLICATION_ID"-->
+<!--            android:value="ca-app-pub-5068274441143120~7108007382"/>-->
 
 
     </application>
