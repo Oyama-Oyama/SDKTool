@@ -35,7 +35,6 @@ public class CustomNativeView extends LinearLayout {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-
         this.post(runnable);
     }
 
