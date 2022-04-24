@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.roman.garden.sdk">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,6 +19,11 @@
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-5068274441143120~7108007382"
+            tools:node="merge" />
 
         <activity
             android:name=".MainActivity"

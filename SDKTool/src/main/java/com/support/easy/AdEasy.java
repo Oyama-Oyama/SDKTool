@@ -146,10 +146,6 @@ public class AdEasy {
         _activity = new WeakReference<>(activity);
     }
 
-    public static void onResume(Activity activity) {
-        _activity = new WeakReference<>(activity);
-    }
-
     public static void setTesting(boolean testing) {
         Appodeal.setTesting(testing);
     }
@@ -231,7 +227,7 @@ public class AdEasy {
 //        Appodeal.setNativeCallbacks(callbacks);
 //    }
 
-    private static NativeAd getNativeAd() {
+    public static synchronized NativeAd getNativeAd() {
         List<NativeAd> nativeAds = getNativeAds(1);
         if (nativeAds != null && nativeAds.size() == 1)
             return nativeAds.get(0);
@@ -349,6 +345,11 @@ public class AdEasy {
             Appodeal.hide(activity, Appodeal.BANNER_BOTTOM);
         else
             Appodeal.hide(activity, Appodeal.BANNER);
+    }
+
+    public static void showBanner() {
+        if (_activity != null && _activity.get() != null)
+            Appodeal.show(_activity.get(), Appodeal.BANNER_VIEW);
     }
 
     public static boolean canShowInterstitial() {

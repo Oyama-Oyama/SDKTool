@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         AdEasy.init(this, "78642e9cf4be658208e758a7892fa76f6439a1fa2d0f2a4a", true);
 
+
+
         nativevv = findViewById(R.id.nativevv);
 
         findViewById(R.id.full).setOnClickListener(new View.OnClickListener() {
