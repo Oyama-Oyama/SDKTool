@@ -85,9 +85,9 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.lifecycle:lifecycle-process:2.2.0'
-    implementation 'com.google.android.gms:play-services-ads:20.4.0'
-    implementation 'com.tencent:mmkv-static:1.2.9'
+    api 'androidx.lifecycle:lifecycle-process:2.2.0'
+    api 'com.google.android.gms:play-services-ads:20.4.0'
+    api 'com.tencent:mmkv-static:1.2.9'
     implementation 'com.explorestack:consent:1.0.5'
     implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
 //    implementation 'com.appodeal.ads:sdk:2.11.1.+'
@@ -135,7 +135,7 @@ afterEvaluate {
 
                 groupId = 'com.github.Oyama-Oyama'
                 artifactId = 'SDKTool'
-                version = '2.1.0'
+                version = '2.1.1'
             }
         }
     }

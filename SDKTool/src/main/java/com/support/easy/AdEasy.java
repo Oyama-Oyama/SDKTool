@@ -2,6 +2,7 @@ package com.support.easy;
 
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.view.View;
 
@@ -16,6 +17,7 @@ import com.appodeal.ads.RewardedVideoCallbacks;
 import com.appodeal.ads.native_ad.views.NativeAdViewAppWall;
 import com.appodeal.ads.native_ad.views.NativeAdViewContentStream;
 import com.appodeal.ads.native_ad.views.NativeAdViewNewsFeed;
+import com.tencent.mmkv.MMKV;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -37,6 +39,10 @@ public class AdEasy {
     private static WeakReference<IRewardedVideoCallback> _rewardedVideoCallbacks = null;
     private static WeakReference<IInterstitialCallback> _interstitialCallbacks = null;
 
+    public static void initApplication(Application application){
+        MMKV.initialize(application);
+    }
+    
     public static void init(@NonNull Activity activity, @NonNull String appKey) {
         init(activity, appKey, AD_TYPE_BANNER | AD_TYPE_NATIVE | AD_TYPE_INTERSTITIAL | AD_TYPE_REWARDED_VIDEO);
     }
