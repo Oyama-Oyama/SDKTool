@@ -39,10 +39,10 @@ public class AdEasy {
     private static WeakReference<IRewardedVideoCallback> _rewardedVideoCallbacks = null;
     private static WeakReference<IInterstitialCallback> _interstitialCallbacks = null;
 
-    public static void initApplication(Application application){
+    public static void initApplication(Application application) {
         MMKV.initialize(application);
     }
-    
+
     public static void init(@NonNull Activity activity, @NonNull String appKey) {
         init(activity, appKey, AD_TYPE_BANNER | AD_TYPE_NATIVE | AD_TYPE_INTERSTITIAL | AD_TYPE_REWARDED_VIDEO);
     }
@@ -362,6 +362,18 @@ public class AdEasy {
         return isLoaded(AD_TYPE_INTERSTITIAL) && canShow(AD_TYPE_INTERSTITIAL);
     }
 
+    public static boolean showInterstitial() {
+        if (_activity != null && _activity.get() != null)
+            return showInterstitial(_activity.get());
+        return false;
+    }
+
+    public static boolean showInterstitial(@Nullable IInterstitialCallback callback) {
+        if (_activity != null && _activity.get() != null)
+            return showInterstitial(_activity.get(), callback);
+        return false;
+    }
+
     public static boolean showInterstitial(@NonNull Activity activity) {
         return showInterstitial(activity, null);
     }
@@ -388,6 +400,18 @@ public class AdEasy {
 
     public static boolean showRewardedVideo(@NonNull Activity activity) {
         return showRewardedVideo(activity, null);
+    }
+
+    public static boolean showRewardedVideo() {
+        if (_activity != null && _activity.get() != null)
+            return showRewardedVideo(_activity.get());
+        return false;
+    }
+
+    public static boolean showRewardedVideo(@Nullable IRewardedVideoCallback callback) {
+        if (_activity != null && _activity.get() != null)
+            return showRewardedVideo(_activity.get(), callback);
+        return false;
     }
 
     public static boolean showRewardedVideo(@NonNull Activity activity, @Nullable IRewardedVideoCallback callback) {
