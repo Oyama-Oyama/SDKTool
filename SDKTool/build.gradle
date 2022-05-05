@@ -86,20 +86,28 @@ android {
 
 dependencies {
     api 'androidx.lifecycle:lifecycle-process:2.2.0'
-    api 'com.google.android.gms:play-services-ads:20.4.0'
+    api 'com.google.android.gms:play-services-ads:20.6.0'
     api 'com.tencent:mmkv-static:1.2.9'
     implementation 'com.explorestack:consent:1.0.5'
     implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
 //    implementation 'com.appodeal.ads:sdk:2.11.1.+'
 
-    implementation ('com.appodeal.ads:sdk:2.11.1.+') {
-        exclude group: 'com.appodeal.ads.sdk.networks', module: 'ironsource'
-        exclude group: 'com.appodeal.ads.sdk.networks', module: 'my_target'
-        exclude group: 'com.appodeal.ads.sdk.networks', module: 'ogury'
-        exclude group: 'com.appodeal.ads.sdk.networks', module: 'unity_ads'
-        exclude group: 'com.appodeal.ads.sdk.networks', module: 'vungle'
-        exclude group: 'com.appodeal.ads.sdk.networks', module: 'adcolony'
-    }
+//    implementation ('com.appodeal.ads:sdk:2.11.1.+') {
+//        exclude group: 'com.appodeal.ads.sdk.networks', module: 'ironsource'
+//        exclude group: 'com.appodeal.ads.sdk.networks', module: 'my_target'
+//        exclude group: 'com.appodeal.ads.sdk.networks', module: 'ogury'
+//        exclude group: 'com.appodeal.ads.sdk.networks', module: 'unity_ads'
+//        exclude group: 'com.appodeal.ads.sdk.networks', module: 'vungle'
+//        exclude group: 'com.appodeal.ads.sdk.networks', module: 'adcolony'
+//    }
+
+    implementation 'com.appodeal.ads.sdk:core:2.11.1'
+    implementation 'com.appodeal.ads.sdk.networks:applovin:2.11.1.24'
+    implementation 'com.appodeal.ads.sdk.networks:bidmachine:2.11.1.21'
+    implementation 'com.appodeal.ads.sdk.networks:admob:2.11.1.18'
+    implementation 'com.appodeal.ads.sdk.networks:unity_ads:2.11.1.17'
+  //  implementation 'com.appodeal.ads.sdk.networks:vungle:2.11.1.14'
+
 }
 
 //apply plugin: 'maven'
@@ -135,7 +143,7 @@ afterEvaluate {
 
                 groupId = 'com.github.Oyama-Oyama'
                 artifactId = 'SDKTool'
-                version = '2.1.2'
+                version = '2.2.0'
             }
         }
     }
