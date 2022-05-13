@@ -17,6 +17,12 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout nativevv;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        AdEasy.onStart(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

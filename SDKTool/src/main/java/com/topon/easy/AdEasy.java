@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.Observer;
 
 import com.anythink.core.api.ATAdInfo;
 import com.anythink.core.api.ATAdStatusInfo;
@@ -38,11 +39,9 @@ public class AdEasy implements LifecycleObserver {
     private static final String TAG_GDPR = "__gdpr__";
     private static final Object TAG_BANNER_VIEW = "__banner__";
     private static Application _application = null;
-
     private static Config _config = null;
-
     private static WeakReference<Activity> _activity = null;
-
+    private static AdmobAppOpenManager _admobAppOpenManager = null;
 
     public static void init(Application application, String TopOnAppID, String TopOnAppKey, IConfigBuilderCallback callback) {
         init(application, TopOnAppID, TopOnAppKey, callback, false);
@@ -69,6 +68,7 @@ public class AdEasy implements LifecycleObserver {
         // TODO: 2022/5/12 待检测使用Application是否可以替代Activity
         initInterstitial();
         initRewardedVideo();
+        initAdmobAppOpenManager();
     }
 
     public static void onCreate(Activity activity) {
@@ -313,7 +313,7 @@ public class AdEasy implements LifecycleObserver {
 
     public static void initNativeAd() {
         if (_config != null) {
-            if (!StringUtil.isEmpty(_config.AD_REWARDED_VIDEO_PLACEMENT)) {
+            if (!StringUtil.isEmpty(_config.AD_NATIVE_PLACEMENT)) {
                 _atNative = new ATNative(_application, _config.AD_NATIVE_PLACEMENT, new ATNativeNetworkListener() {
                     @Override
                     public void onNativeAdLoaded() {
@@ -360,7 +360,7 @@ public class AdEasy implements LifecycleObserver {
     }
 
     //AppOpen
-    private static AdmobAppOpenManager _admobAppOpenManager = null;
+
 
     public static void initAdmobAppOpenManager() {
         if (_config != null) {
@@ -380,5 +380,16 @@ public class AdEasy implements LifecycleObserver {
         if (_admobAppOpenManager != null)
             _admobAppOpenManager.loadAd(_application);
     }
+
+    public static void registerAppOpenAdListener(Observer<Boolean> listener) {
+        if (_admobAppOpenManager != null)
+            _admobAppOpenManager.registerAppOpenListener(listener);
+    }
+
+    public static void unregisterAppOpenAdListener(Observer<Boolean> listener) {
+        if (_admobAppOpenManager != null)
+            _admobAppOpenManager.unregisterAppOpenListener(listener);
+    }
+
 
 }

@@ -17,7 +17,8 @@ public class App extends Application {
                 return new Config().setBannerPlacement("b627daf554fb83")
                         .setNativePlacement("b627daf718add0")
                         .setInterstitialPlacement("b627daf655fb54")
-                        .setRewardedVideoPlacement("b627daf7f36cd3");
+                        .setRewardedVideoPlacement("b627daf7f36cd3")
+                        .setAppOpenPlacement("ca-app-pub-3940256099942544/3419835294");
             }
         }, true);
     }

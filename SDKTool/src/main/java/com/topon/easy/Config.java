@@ -35,7 +35,8 @@ public class Config {
         return this;
     }
 
-    public void setAppOpenPlacement(String AD_APP_OPEN_PLACEMENT_ID) {
+    public Config setAppOpenPlacement(String AD_APP_OPEN_PLACEMENT_ID) {
         this.AD_APP_OPEN_PLACEMENT_ID = AD_APP_OPEN_PLACEMENT_ID;
+        return this;
     }
 }
