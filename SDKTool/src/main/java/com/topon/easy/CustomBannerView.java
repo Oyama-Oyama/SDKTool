@@ -2,6 +2,7 @@ package com.topon.easy;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -53,18 +54,19 @@ public class CustomBannerView extends FrameLayout implements ATBannerListener {
                 _atBannerView = new ATBannerView(getContext());
                 _atBannerView.setPlacementId(placementId);
                 Map<String, Object> localExtra = new HashMap<>();
-//since v5.7.0, Admob Adaptive banner（自适应锚定横幅、自适应大尺寸横幅）
-                localExtra.put(AdmobATConst.ADAPTIVE_TYPE, AdmobATConst.ADAPTIVE_ANCHORED);//自适应锚定横幅
-//localExtra.put(AdmobATConst.ADAPTIVE_TYPE, AdmobATConst.ADAPTIVE_INLINE);//自适应大尺寸横幅
-                localExtra.put(AdmobATConst.ADAPTIVE_ORIENTATION, AdmobATConst.ORIENTATION_CURRENT);
-//localExtra.put(AdmobATConst.ADAPTIVE_ORIENTATION, AdmobATConst.ORIENTATION_PORTRAIT);
-//localExtra.put(AdmobATConst.ADAPTIVE_ORIENTATION, AdmobATConst.ORIENTATION_LANDSCAPE);
-                localExtra.put(AdmobATConst.ADAPTIVE_WIDTH, 320);
-                _atBannerView.setLocalExtra(localExtra);
+////since v5.7.0, Admob Adaptive banner（自适应锚定横幅、自适应大尺寸横幅）
+//                localExtra.put(AdmobATConst.ADAPTIVE_TYPE, AdmobATConst.ADAPTIVE_ANCHORED);//自适应锚定横幅
+////localExtra.put(AdmobATConst.ADAPTIVE_TYPE, AdmobATConst.ADAPTIVE_INLINE);//自适应大尺寸横幅
+//                localExtra.put(AdmobATConst.ADAPTIVE_ORIENTATION, AdmobATConst.ORIENTATION_CURRENT);
+////localExtra.put(AdmobATConst.ADAPTIVE_ORIENTATION, AdmobATConst.ORIENTATION_PORTRAIT);
+////localExtra.put(AdmobATConst.ADAPTIVE_ORIENTATION, AdmobATConst.ORIENTATION_LANDSCAPE);
+//                localExtra.put(AdmobATConst.ADAPTIVE_WIDTH, 320);
+//                _atBannerView.setLocalExtra(localExtra);
                 _atBannerView.setBannerAdListener(this);
             }
-
-            addView(_atBannerView);
+            LayoutParams params = new LayoutParams(-1, -2);
+            params.gravity = Gravity.BOTTOM|Gravity.CENTER;
+            addView(_atBannerView, params);
             _atBannerView.loadAd();
         }
 
