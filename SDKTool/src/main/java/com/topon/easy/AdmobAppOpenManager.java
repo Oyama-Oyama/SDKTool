@@ -1,4 +1,4 @@
-package com.support.easy;
+package com.topon.easy;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,6 +16,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.appopen.AppOpenAd;
+import com.support.easy.StringUtil;
 
 
 import java.util.Date;

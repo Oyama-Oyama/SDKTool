@@ -3,14 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="SDKTool/src/main/res/layout/native_ad_item.xml" value="0.30480072463768115" />
         <entry key="SDKTool/src/main/res/layout/view_banner.xml" value="0.1875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.18704710144927536" />
       </map>
     </option>
-  </component>
-  <component name="ProjectPlainTextFileTypeManager">
-    <file url="file://$PROJECT_DIR$/SDKTool/src/main/res/drawable/gnt_outline_shape.xml" />
-    <file url="file://$PROJECT_DIR$/SDKTool/src/main/res/drawable/gnt_rounded_corners_shape.xml" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

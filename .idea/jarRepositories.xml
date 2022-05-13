@@ -41,5 +41,15 @@
       <option name="name" value="maven2" />
       <option name="url" value="https://jitpack.io" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven4" />
+      <option name="name" value="maven4" />
+      <option name="url" value="https://anythink.jfrog.io/artifactory/android_sdk" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven5" />
+      <option name="name" value="maven5" />
+      <option name="url" value="https://s01.oss.sonatype.org/content/groups/staging/" />
+    </remote-repository>
   </component>
 </project>

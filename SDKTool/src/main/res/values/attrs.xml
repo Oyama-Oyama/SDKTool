@@ -1,15 +1,5 @@
 <resources>
 
-    <declare-styleable name="TemplateView">
-        <attr name="gnt_template_type" format="reference" />
-    </declare-styleable>
 
-    <declare-styleable name="NativeType">
-        <attr name="format" format="enum">
-            <enum name="NewsFeed" value="1" />
-            <enum name="AppWall" value="2" />
-            <enum name="ContentStream" value="3" />
-        </attr>
-    </declare-styleable>
 
 </resources>

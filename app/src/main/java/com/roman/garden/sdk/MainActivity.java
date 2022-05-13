@@ -1,16 +1,15 @@
 package com.roman.garden.sdk;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.support.easy.AdEasy;
-import com.support.easy.IInterstitialCallback;
-import com.support.easy.IRewardedVideoCallback;
+import com.topon.easy.AdEasy;
+import com.topon.easy.IRewardedVideoCallback;
+import com.topon.easy.L;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -21,37 +20,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        AdEasy.init(this, "78642e9cf4be658208e758a7892fa76f6439a1fa2d0f2a4a", true);
-
-
+     //   AdEasy.init(this, "78642e9cf4be658208e758a7892fa76f6439a1fa2d0f2a4a", true);
+//F3EDE78A2C3C4127A07CA5E97F0FDD02
+        AdEasy.onCreate(this);
 
         nativevv = findViewById(R.id.nativevv);
 
         findViewById(R.id.full).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (AdEasy.canShowInterstitial())
-                    AdEasy.showInterstitial(MainActivity.this, new IInterstitialCallback() {
-                        @Override
-                        public void onInterstitialShown() {
-                            Log.e("-------", "onInterstitialShown");
-                        }
-
-                        @Override
-                        public void onInterstitialShowFailed() {
-                            Log.e("-------", "onInterstitialShowFailed");
-                        }
-
-                        @Override
-                        public void onInterstitialClicked() {
-                            Log.e("-------", "onInterstitialClicked");
-                        }
-
-                        @Override
-                        public void onInterstitialClosed() {
-                            Log.e("-------", "onInterstitialClosed");
-                        }
-                    });
+                if (AdEasy.hasInterstitial())
+                    AdEasy.showInterstitial(MainActivity.this);
                 else
                     toast("显示插屏失败");
             }
@@ -59,40 +38,17 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.banner).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (AdEasy.canShowBanner())
-                    AdEasy.showBanner(MainActivity.this);
-                else
-                    toast("显示banner 失败");
+                AdEasy.showBanner(MainActivity.this);
             }
         });
         findViewById(R.id.reward).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (AdEasy.canShowRewardedVideo())
+                if (AdEasy.hasRewardedVideo())
                     AdEasy.showRewardedVideo(MainActivity.this, new IRewardedVideoCallback() {
                         @Override
-                        public void onRewardedVideoShown() {
-                            Log.e("-------", "onRewardedVideoShown");
-                        }
-
-                        @Override
-                        public void onRewardedVideoShowFailed() {
-                            Log.e("-------", "onRewardedVideoShowFailed");
-                        }
-
-                        @Override
                         public void onRewarded(boolean result) {
-                            Log.e("-------", "onRewarded");
-                        }
-
-                        @Override
-                        public void onRewardedVideoClicked() {
-                            Log.e("-------", "onRewardedVideoClicked");
-                        }
-
-                        @Override
-                        public void onRewardedVideoClosed() {
-                            Log.e("-------", "onRewardedVideoClosed");
+                            L.E("rewared video result-->" + result);
                         }
                     });
                 else
@@ -102,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.hbanner).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AdEasy.hideBanner(MainActivity.this);
+                AdEasy.hideBanner();
             }
         });
         findViewById(R.id.showNativeNormal).setOnClickListener(new View.OnClickListener() {
@@ -115,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 nativevv.removeAllViews();
-                View nativeView = AdEasy.buildNativeViewAppWall(view.getContext());
+                View nativeView = AdEasy.getNativeAdView(view.getContext());
                 if (nativeView != null) {
                     nativevv.addView(nativeView);
                 } else {
@@ -127,26 +83,26 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.showNativeNewsFeed).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nativevv.removeAllViews();
-                View nativeView = AdEasy.buildNativeViewNewsFeed(view.getContext());
-                if (nativeView != null) {
-                    nativevv.addView(nativeView);
-                } else {
-                    toast("native view null");
-                }
+//                nativevv.removeAllViews();
+//                View nativeView = AdEasy.buildNativeViewNewsFeed(view.getContext());
+//                if (nativeView != null) {
+//                    nativevv.addView(nativeView);
+//                } else {
+//                    toast("native view null");
+//                }
             }
         });
 
         findViewById(R.id.showNativeContentStream).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nativevv.removeAllViews();
-                View nativeView = AdEasy.buildNativeViewContentStream(view.getContext());
-                if (nativeView != null) {
-                    nativevv.addView(nativeView);
-                } else {
-                    toast("native view null");
-                }
+//                nativevv.removeAllViews();
+//                View nativeView = AdEasy.buildNativeViewContentStream(view.getContext());
+//                if (nativeView != null) {
+//                    nativevv.addView(nativeView);
+//                } else {
+//                    toast("native view null");
+//                }
             }
         });
     }
