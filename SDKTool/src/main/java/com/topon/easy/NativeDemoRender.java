@@ -2,12 +2,15 @@ package com.topon.easy;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.anythink.nativead.api.ATNativeAdRenderer;
 import com.anythink.nativead.api.ATNativeImageView;
@@ -23,7 +26,7 @@ public class NativeDemoRender implements ATNativeAdRenderer<CustomNativeAd> {
     Context mContext;
     List<View> mClickView = new ArrayList<>();
     View mCloseView;
-
+    FrameLayout contentArea;
     public NativeDemoRender(Context context) {
         mContext = context;
     }
@@ -51,7 +54,7 @@ public class NativeDemoRender implements ATNativeAdRenderer<CustomNativeAd> {
         TextView descView = (TextView) view.findViewById(R.id.native_ad_desc);
         TextView ctaView = (TextView) view.findViewById(R.id.native_ad_install_btn);
         TextView adFromView = (TextView) view.findViewById(R.id.native_ad_from);
-        FrameLayout contentArea = (FrameLayout) view.findViewById(R.id.native_ad_content_image_area);
+        contentArea = (FrameLayout) view.findViewById(R.id.native_ad_content_image_area);
         FrameLayout iconArea = (FrameLayout) view.findViewById(R.id.native_ad_image);
         final ATNativeImageView logoView = (ATNativeImageView) view.findViewById(R.id.native_ad_logo);
 
@@ -84,8 +87,10 @@ public class NativeDemoRender implements ATNativeAdRenderer<CustomNativeAd> {
             if (mediaView.getParent() != null) {
                 ((ViewGroup) mediaView.getParent()).removeView(mediaView);
             }
-
-            contentArea.addView(mediaView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT));
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+            params.gravity = Gravity.CENTER;
+            contentArea.addView(mediaView, params);
+            resetMediaContentSize(mediaView);
             return;
         }
 
@@ -123,18 +128,20 @@ public class NativeDemoRender implements ATNativeAdRenderer<CustomNativeAd> {
             if (mediaView.getParent() != null) {
                 ((ViewGroup) mediaView.getParent()).removeView(mediaView);
             }
-
-            contentArea.addView(mediaView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+            params.gravity = Gravity.CENTER;
+            contentArea.addView(mediaView, params);
+            resetMediaContentSize(mediaView);
         } else {
 
             final ATNativeImageView imageView = new ATNativeImageView(mContext);
-
-            imageView.setImage(ad.getMainImageUrl());
-            ViewGroup.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+            params.gravity = Gravity.CENTER;
             imageView.setLayoutParams(params);
-            contentArea.addView(imageView, params);
+            imageView.setImage(ad.getMainImageUrl());
 
+            contentArea.addView(imageView, params);
+            resetMediaContentSize(imageView);
             mClickView.add(imageView);
         }
 
@@ -152,6 +159,26 @@ public class NativeDemoRender implements ATNativeAdRenderer<CustomNativeAd> {
         mClickView.add(descView);
         mClickView.add(ctaView);
 
+    }
+
+    private void resetMediaContentSize(View view) {
+//        view.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                int width = view.getWidth();
+//                int height = view.getHeight();
+//                int w = view.getMeasuredWidth();
+//                int h = view.getMeasuredHeight();
+//
+//                int ww = contentArea.getContext().getResources().getDisplayMetrics().widthPixels;
+//                int hh = contentArea.getContext().getResources().getDisplayMetrics().heightPixels;
+//                if (height != 0) {
+//                    final float scale = contentArea.getContext().getResources().getDisplayMetrics().density;
+//                    int size =  (int) ((height / scale + 0.5f) * 1.2f);
+//                  //  contentArea.setLayoutParams(new ConstraintLayout.LayoutParams(-2, size));
+//                }
+//            }
+//        });
     }
 
     public List<View> getClickView() {

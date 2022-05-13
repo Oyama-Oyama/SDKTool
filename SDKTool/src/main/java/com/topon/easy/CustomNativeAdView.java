@@ -2,6 +2,9 @@ package com.topon.easy;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.anythink.core.api.ATAdInfo;
 import com.anythink.nativead.api.ATNativeAdView;
@@ -13,15 +16,16 @@ public class CustomNativeAdView extends ATNativeAdView {
     private NativeAd _nativeAd = null;
 
     public CustomNativeAdView(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public CustomNativeAdView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, -1);
     }
 
     public CustomNativeAdView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+      //  setLayoutParams(new ViewGroup.LayoutParams(-2, 500));
     }
 
     @Override
@@ -82,6 +86,7 @@ public class CustomNativeAdView extends ATNativeAdView {
                 NativeDemoRender render = new NativeDemoRender(getContext());
                 _nativeAd.renderAdView(CustomNativeAdView.this, render);
                 _nativeAd.prepare(CustomNativeAdView.this, render.getClickView(), null);
+               // setLayoutParams(new ConstraintLayout.LayoutParams(-2, -3));
             } else {
                 CustomNativeAdView.this.postDelayed(runnable, 600);
             }
