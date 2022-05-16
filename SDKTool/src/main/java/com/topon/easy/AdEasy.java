@@ -269,6 +269,15 @@ public class AdEasy implements LifecycleObserver {
         return false;
     }
 
+    public static void showRewardedVideo(IRewardedVideoCallback listener){
+        if (_activity != null && _activity.get() != null){
+            showRewardedVideo(_activity.get(), listener);
+        } else {
+            if (listener != null)
+                listener.onRewarded(false);
+        }
+    }
+
     public static void showRewardedVideo(Activity activity, IRewardedVideoCallback listener) {
         if (hasRewardedVideo())
             ATRewardVideoAutoAd.show(activity, _config.AD_REWARDED_VIDEO_PLACEMENT, new ATRewardVideoAutoEventListener() {
@@ -360,8 +369,6 @@ public class AdEasy implements LifecycleObserver {
     }
 
     //AppOpen
-
-
     public static void initAdmobAppOpenManager() {
         if (_config != null) {
             if (!StringUtil.isEmpty(_config.AD_APP_OPEN_PLACEMENT_ID)) {
